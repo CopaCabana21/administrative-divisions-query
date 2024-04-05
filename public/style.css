@@ -1,0 +1,81 @@
+
+html, body{
+    margin: 0;
+    padding: 0;
+}
+
+
+body{
+    background-color: #fbffe3;
+    min-width: 550px;
+    width: 100%;
+}
+
+
+header span{
+    font-family: "Tac One", sans-serif;
+    font-size: calc(var(--bs-body-font-size)*2);
+}
+
+header a{
+    font-family: "Tac One", sans-serif;
+    font-size: calc(var(--bs-body-font-size)*1.1) !important;
+}
+
+header{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 10vh;
+    background-color: #9CAFAA;
+}
+
+main{
+    min-width: 550px;
+    display: flex;
+    min-height: 82vh;
+}
+
+
+aside{
+    width: 20%;
+    position: sticky;
+    margin-left: 5px;
+    border-right: 1px solid #9CAFAA;
+
+}
+
+#listSelector{
+    list-style-type: none;
+    padding-left: 20px;
+    height: 100%;
+    padding-top: 10px;
+}
+
+#elementsDisplay{
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#myMap{
+    height: 90%;
+    width: 70%;
+    border: 2px solid black;
+    border-radius: 6px;
+}
+
+#footerContainer{
+    height: 8vh;
+    background-color: #9CAFAA;
+}
+
+
+#countrySearchForm{
+    display: flex;
+}
+
+#countrySearch{
+    width: 100%;
+}
