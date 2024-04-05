@@ -7,18 +7,22 @@ document.getElementById('countrySearchForm').addEventListener("submit", function
     event.preventDefault();
     const searchQuery = document.querySelector('#countrySearchForm > input').value;
 
-    getNominatimSearch(searchQuery).then(res =>{
-        let searchData = res.map(x => [x.name, x.osm_id]);
-        // console.log(searchData);
+    getNominatimSearch(searchQuery)
+        .then(res =>{
+            let searchData = res.map(x => [x.name, x.osm_id]);
+            // console.log(searchData);
 
-        /* remove previous search elements */
-        document.getElementById('listSelector').innerHTML = '';
+            /* remove previous search elements */
+            document.getElementById('listSelector').innerHTML = '';
 
-        /* populate unordered list */
-        searchData.forEach(element => {
-            addListElement(element);
+            /* populate unordered list */
+            searchData.forEach(element => {
+                addListElement(element);
+            });
+        })
+        .catch(err => {
+            console.log('Error fetching data', err);
         });
-    });
 
 
 });

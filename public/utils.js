@@ -44,7 +44,8 @@ async function getNominatimSearch(query){
             return resp.ok ? resp.json() : Promise.reject(new Error("Bad network response"));
         })
         .catch(err => {
-            console.log('Error fetching data', err);
+            // console.log('Error fetching data', err);
+            return Promise.reject(new Error(err));
         });
 
     return searchResult;
