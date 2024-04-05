@@ -79,3 +79,9 @@ aside{
 #countrySearch{
     width: 100%;
 }
+
+
+#listSelector a{
+    text-decoration: none;
+    color: rgb(49, 111, 14);
+}

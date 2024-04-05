@@ -56,7 +56,7 @@ async function getNominatimSearch(query){
 function addListElement(content){
 
     /* make element */
-    let innerHTML = `<a href="#">${content[0] + " (" + content[1] + ")"}</a>`;
+    let innerHTML = `<li class="list-group-item"><a href="#">${content[0] + " (" + content[1] + ")"}</a></li>`;
     const newElement = document.createElement("li");
     
     newElement.innerHTML = innerHTML;
