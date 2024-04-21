@@ -1,6 +1,20 @@
 import {getRelation, getNominatimSearch, addListElement, makeSlippyMap} from './utils.js';
 
-getRelation(288247).then(res => makeSlippyMap(res));
+// var input = document.querySelector("input");
+// input.setAttribute('size',input.getAttribute('placeholder').length);
+
+/* Initialize map and set to world */
+/* leaflet adds the class leaflet-container to the element */
+window.map = L.map('myMap').setView([0,0], 1);
+const layer = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 15,
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+});
+
+layer.addTo(map);
+
+/* test relation */
+// getRelation(288247).then(res => makeSlippyMap(res));
 
 /* handle search form */
 document.getElementById('countrySearchForm').addEventListener("submit", function(event){
@@ -9,14 +23,16 @@ document.getElementById('countrySearchForm').addEventListener("submit", function
 
     getNominatimSearch(searchQuery)
         .then(res =>{
-            let searchData = res.map(x => [x.name, x.osm_id]);
-            // console.log(searchData);
+            //! /* pass only the name and id */
+            //! let searchData = res.map(x => [x.name, x.osm_id]);
 
             /* remove previous search elements */
             document.getElementById('listSelector').innerHTML = '';
+            /* filter res */
+            let resFilter = res.filter(ele => ele.osm_type == "relation");
 
             /* populate unordered list */
-            searchData.forEach(element => {
+            resFilter.forEach(element => {
                 addListElement(element);
             });
         })

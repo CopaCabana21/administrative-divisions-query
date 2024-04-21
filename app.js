@@ -1,11 +1,10 @@
-import express from "express"
+import express from "express";
 
 const app = express();
 const port = 3000;
 
 /* setup static file folders */
 app.use(express.static('public'));
-
 
 app.get("/", (req, res) => {
   res.render("index.html");

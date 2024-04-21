@@ -1,3 +1,9 @@
+:root{
+    /* color palette: https://colorhunt.co/palette/12372a436850adbc9ffbfada */
+    --background-color: #FBFADA;
+    --foreground-color: #436850;
+}
+
 
 html, body{
     margin: 0;
@@ -6,7 +12,7 @@ html, body{
 
 
 body{
-    background-color: #fbffe3;
+    background-color: var(--background-color);
     min-width: 550px;
     width: 100%;
 }
@@ -27,7 +33,7 @@ header{
     justify-content: space-around;
     align-items: center;
     height: 10vh;
-    background-color: #9CAFAA;
+    background-color: var(--foreground-color);
 }
 
 main{
@@ -40,14 +46,14 @@ main{
 aside{
     width: 20%;
     position: sticky;
-    margin-left: 5px;
-    border-right: 1px solid #9CAFAA;
+    /* margin-left: 5px; */
+    border-right: 1px solid var(--foreground-color);
 
 }
 
 #listSelector{
-    list-style-type: none;
-    padding-left: 20px;
+    /* list-style-type: none; */
+    /* padding-left: 20px; */
     height: 100%;
     padding-top: 10px;
 }
@@ -56,32 +62,57 @@ aside{
     width: 80%;
     display: flex;
     justify-content: center;
-    align-items: center;
+    /* align-items: center; */
+    position: relative;
 }
 
 #myMap{
-    height: 90%;
+    height: 80vh;
     width: 70%;
     border: 2px solid black;
     border-radius: 6px;
+    margin-top: 10px;
 }
 
 #footerContainer{
     height: 8vh;
-    background-color: #9CAFAA;
+    background-color: var(--foreground-color);
 }
-
 
 #countrySearchForm{
     display: flex;
+    margin-left: 5px;
+    margin-right: 5px;
 }
 
-#countrySearch{
-    width: 100%;
-}
 
+#countrySearchForm input{
+    font-size: 0.8rem;
+    text-overflow: ellipsis;
+}
 
 #listSelector a{
-    text-decoration: none;
-    color: rgb(49, 111, 14);
+    /* text-decoration: none; */
+    color: rgb(9, 84, 189);
+}
+
+#busyIcon{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 1000;
+    font-size: 2em;
+    visibility: hidden;
+    color: var(--foreground-color);
+}
+
+#listSelector-busyIcon{
+    font-size: 2em;
+    visibility: hidden;
+    color: var(--foreground-color);
+}
+
+#listSelector-busyIcon-container{
+    display: flex;
+    justify-content: center;
 }
