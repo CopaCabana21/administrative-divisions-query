@@ -26,12 +26,10 @@
         <ul class="nav nav-pills">
             <li class="nav-item"><a href="#" class="nav-link text-dark" aria-current="page">Home</a></li>
             <li class="nav-item"><a href="#" class="nav-link text-dark">Features</a></li>
-            <li class="nav-item"><a href="#" class="nav-link text-dark">FAQs</a></li>
-            <li class="nav-item"><a href="/about" class="nav-link text-dark">About</a></li>
         </ul>
     </header>
     <main>
-        <aside class="">
+        <aside>
             <form id="countrySearchForm" class="form-inline my-2 d-flex" action="/" method="get">
                 <input class="form-control mr-sm-2" type="search" placeholder="search a country" aria-label="Search" name="countryName">
                 <button class="btn btn-outline-secondary" type="submit"><i class="bi bi-search"></i></button>
@@ -45,23 +43,24 @@
                     </div>
                 </div>
             </div>
-
         </aside><section id="elementsDisplay">
             <div id="myMap">
                 <!-- bootstrap spinner -->
                 <div id="busyIcon" class="spinner-border" role="status">
                     <span class="sr-only"></span>
                 </div>
+                <div class="alert alert-warning" role="alert">
+                    <h6 class="alert-heading">Something went wrong</h6>
+                    <p></p>
+                </div>
             </div>
         </section>
     </main>
-    <!-- HERE WAS THE ERROR GOD DAMMIT THE BORDER TOP FROM BOOSTRAP -->
+    <!-- HERE WAS THE ERROR GOD DAMMIT THE BORDER TOP FROM BOOSTRAP IN THE footer TOGETHER WITH THE HEIGHT In VH UNITS -->
     <div id="footerContainer" class="container-fluid">
-        <footer id="footerTag" class="d-flex flex-wrap justify-content-between align-items-center py-3 border-top">
-        <div class="col-md-4 d-flex align-items-center">
-            <a href="/" class="mb-3 me-2 mb-md-0 text-body-secondary text-decoration-none lh-1">
-            </a>
-            <span class="mb-3 mb-md-0 text-body-secondary">&copy; Cocobongo</span>
+        <footer id="footerTag" class="d-flex flex-wrap justify-content-between align-items-center py-3">
+        <div class="d-flex align-items-center">
+            <span class="">&copy; Cocobongo</span>
         </div>
     
         <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
