@@ -1,4 +1,4 @@
-import {getRelation, getNominatimSearch, addListElement, makeSlippyMap} from './utils.js';
+import {getRelation, getNominatimSearch, addListElement, makeSlippyMap, removeListElements} from './utils.js';
 
 // var input = document.querySelector("input");
 // input.setAttribute('size',input.getAttribute('placeholder').length);
@@ -21,13 +21,15 @@ document.getElementById('countrySearchForm').addEventListener("submit", function
     event.preventDefault();
     const searchQuery = document.querySelector('#countrySearchForm > input').value;
 
+    /* remove previous search elements */
+    removeListElements();
+
     getNominatimSearch(searchQuery)
         .then(res =>{
             //! /* pass only the name and id */
             //! let searchData = res.map(x => [x.name, x.osm_id]);
 
-            /* remove previous search elements */
-            document.getElementById('listSelector').innerHTML = '';
+            // document.getElementById('listSelector').innerHTML = '';
             /* filter res */
             let resFilter = res.filter(ele => ele.osm_type == "relation");
 
