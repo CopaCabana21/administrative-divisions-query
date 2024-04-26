@@ -11,8 +11,8 @@ async function getRelation(relationID) {
     try{
 
         let response = await fetch(endPoint, {method: "POST", body: ("data=" + encodeURIComponent(query))});
+        // console.log(response);
 
-        console.log(response);
         if(!response.ok){
             /* a not ok response doesn't throw an error, so throw one and add the response object */
             throw new Error("Feth response was not ok", {cause: response});
@@ -29,8 +29,9 @@ async function getRelation(relationID) {
 
 /* get result from nominatim search engine */
 async function getNominatimSearch(query){
+
     /* display busy icon */
-    document.getElementById("listSelector-busyIcon").style.visibility = "visible";
+    document.getElementById("listSelector-busyIcon").style.display = "block";
 
     /* this are the parameters for the structured query */
     const params = {
@@ -56,7 +57,7 @@ async function getNominatimSearch(query){
         });
         
     /* hide busy icon */
-    document.getElementById("listSelector-busyIcon").style.visibility = "hidden";
+    document.getElementById("listSelector-busyIcon").style.display = "none";
 
     return searchResult;
 }
@@ -88,14 +89,36 @@ function addListElement(element){
         /* show busy icon */
         document.getElementById("busyIcon").style.visibility = "visible";
 
-        getRelation(element)
+        getRelation(element.osm_id)
             .then(x => {
                 /* hide busy icon */
                 document.getElementById("busyIcon").style.visibility = "hidden";
                 return x;
             })
-            .then(x => makeSlippyMap(x, map))
-            .catch(err => console.log("Error fetching relation: ", err.message, `: ${err.cause.status}-${err.cause.statusText}`));
+            .then(x => {
+                makeSlippyMap(x, map);
+                makeOSMTagTableElement(x.elements[0].tags);
+            })
+            .catch(err => {
+                console.log("Error fetching relation: ", `${err.message}: ${err.cause.status}-${err.cause.statusText}`);
+
+                document.querySelector("#elementsDisplay div.alert p").textContent = `${err.message}: ${err.cause.status}-${err.cause.statusText}`;
+                /* hide busy icon */
+                document.getElementById("busyIcon").style.visibility = "hidden";
+                /* show alert */
+                document.querySelector("#elementsDisplay div.alert").style.visibility = "visible";
+            });
+    });
+}
+
+function removeListElements(){
+    let parent = document.getElementById("listSelector");
+
+    [...parent.children].forEach(ele => {
+        if(ele.id != "listSelector-busyIcon-container"){
+            ele.parentNode.removeChild(ele);
+            // console.log(ele);
+        }
     });
 }
 
@@ -145,4 +168,30 @@ function makeSlippyMap(osmData){
 }
 
 
-export {getRelation, getNominatimSearch, addListElement, makeSlippyMap};
+function makeOSMTagTableElement(osmTags){
+    const newElement = document.createElement("div");
+    newElement.setAttribute("class", "mx-1 mb-3 border border-secondary-subtle rounded overflow-hidden border");
+    newElement.setAttribute("id", "tagTableWrapper");
+
+    let trElements = ``;
+    for( const [key, val] of Object.entries(osmTags)){
+        trElements += `<tr>
+            <th class="border-secondary-subtle table-secondary" dir="auto">${key}</th>
+            <td class="border-secondary-subtle border-start text-break" dir="ltr">${val}</td>
+        </tr>`
+    }
+
+    let tableInnerHTML = `<table class="mb-0 table"><tbody>` + trElements + `</tbody></table>`;
+    newElement.innerHTML = tableInnerHTML;
+
+    removeListElements();
+    document.getElementById("listSelector").appendChild(newElement);
+
+    // document.getElementById('tagTableWrapper').insertAdjacentHTML("beforeend", tableInnerHTML);
+}
+
+
+
+
+
+export {getRelation, getNominatimSearch, addListElement, makeSlippyMap, removeListElements};
