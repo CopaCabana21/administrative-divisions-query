@@ -15,6 +15,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Tac+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap" rel="stylesheet">
+
 
     <link rel="stylesheet" href="./style.css">
 </head>
@@ -27,23 +29,29 @@
             <li class="nav-item"><a href="#" class="nav-link text-dark" aria-current="page">Home</a></li>
             <li class="nav-item"><a href="#" class="nav-link text-dark">Features</a></li>
         </ul>
+
+        
     </header>
     <main>
         <aside>
-            <form id="countrySearchForm" class="form-inline my-2 d-flex" action="/" method="get">
-                <input class="form-control mr-sm-2" type="search" placeholder="search a country" aria-label="Search" name="countryName">
-                <button class="btn btn-outline-secondary" type="submit"><i class="bi bi-search"></i></button>
-              </form>
-            <div id="listSelector" class="list-group">
-                <!-- <a href="#" class="list-group-item list-group-item-action">Cras justo odio</a> -->
-                <!-- <li>country1</li> -->
-                <div id="listSelector-busyIcon-container">
-                    <div id="listSelector-busyIcon" class="spinner-border" role="status">
-                        <span class="sr-only"></span>
+            <button class="btn btn-light border container-fluid text-start" data-bs-toggle="collapse" data-bs-target="#searchSection" aria-expanded="false">Search a relation</button>
+            <div id="searchSection" class="collapse">
+                <form id="countrySearchForm" class="form-inline my-2 d-flex" action="/" method="get">
+                    <input class="form-control mr-sm-2" type="search" placeholder="search a relation" aria-label="Search" name="countryName">
+                    <button class="btn btn-outline-secondary" type="submit"><i class="bi bi-search"></i></button>
+                </form>
+                <div id="listSelector" class="list-group">
+                    <!-- <a href="#" class="list-group-item list-group-item-action">Cras justo odio</a> -->
+                    <!-- <li>country1</li> -->
+                    <div id="listSelector-busyIcon-container">
+                        <div id="listSelector-busyIcon" class="spinner-border" role="status">
+                            <span class="sr-only"></span>
+                        </div>
                     </div>
-                </div>
+                </div>  
             </div>
-        </aside><section id="elementsDisplay">
+        </aside>
+        <section id="elementsDisplay">
             <div id="myMap">
                 <!-- bootstrap spinner -->
                 <div id="busyIcon" class="spinner-border" role="status">
