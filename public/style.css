@@ -107,12 +107,21 @@ aside{
 
 #busyIcon{
     position: absolute;
-    top: 50%;
-    left: 50%;
+    top:0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+
+
     z-index: 1000;
-    font-size: 2em;
+    font-size: 6em;
     visibility: hidden;
     color: var(--foreground-color);
+
+    height: 1.2em;
+    width: 1.2em;
+
 }
 
 #listSelector-busyIcon{
@@ -171,8 +180,6 @@ tr{
         height: 10vh;
     }
 
-
-
     #myMap {
         width: 100%;
         height: 100%;
@@ -180,3 +187,25 @@ tr{
         margin: 0;
     }
 }
+
+aside > button::before{
+    width: 1.25em;
+    display: inline-block;
+    margin-right: 5px;
+    content: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='rgba%280,0,0,.5%29' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5 14l6-6-6-6'/%3e%3c/svg%3e");
+    transition: transform 0.5s ease;
+    transform-origin: 25% 50%;
+}
+
+aside > button[aria-expanded="true"]::before {
+    transform: rotate(90deg);
+}
+
+
+aside > button {
+    font-family: "Oswald", sans-serif !important;
+}
+
+
+
+
