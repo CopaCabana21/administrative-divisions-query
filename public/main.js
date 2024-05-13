@@ -1,18 +1,5 @@
 import {getRelation, getNominatimSearch, addListElement, makeSlippyMap, removeListElements} from './utils.js';
 
-// var input = document.querySelector("input");
-// input.setAttribute('size',input.getAttribute('placeholder').length);
-
-/* Initialize map and set to world */
-/* leaflet adds the class leaflet-container to the element */
-window.map = L.map('myMap').setView([0,0], 1);
-const layer = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 15,
-    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-});
-
-layer.addTo(map);
-
 /* test relation */
 // getRelation(288247).then(res => makeSlippyMap(res));
 

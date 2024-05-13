@@ -1,3 +1,13 @@
+/* Initialize map and set to world */
+/* leaflet adds the class leaflet-container to the element */
+const map = L.map('myMap').setView([0,0], 1);
+const layer = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 15,
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+});
+
+layer.addTo(map);
+
 /* get relation from OSM API */
 async function getRelation(relationID) {
     var endPoint = "https://overpass-api.de/api/interpreter";
@@ -7,7 +17,7 @@ async function getRelation(relationID) {
     rel(${relationID});
     out geom;
     `;
-
+    
     try{
 
         let response = await fetch(endPoint, {method: "POST", body: ("data=" + encodeURIComponent(query))});
