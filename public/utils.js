@@ -1,13 +1,3 @@
-/* Initialize map and set to world */
-/* leaflet adds the class leaflet-container to the element */
-const map = L.map('myMap').setView([0,0], 1);
-const layer = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 15,
-    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-});
-
-layer.addTo(map);
-
 /* get relation from OSM API */
 async function getRelation(relationID) {
     var endPoint = "https://overpass-api.de/api/interpreter";
@@ -76,7 +66,7 @@ async function getNominatimSearch(query){
 // console.dir(temp.keys);
 
 /* create and add list element */
-function addListElement(element){
+function addListElement(element, map){
     /* make element using innerHTML */
     let innerHTML = `<a href="#" class="list-group-item list-group-item-action">${element.name} (${element.addresstype}-${element.osm_id})</a>`;
     // const newElement = document.createElement("a");
@@ -135,7 +125,7 @@ function removeListElements(){
 //! /* var lexical scope is outside the function */
 //! // var map;
 
-function makeSlippyMap(osmData){
+function makeSlippyMap(osmData, map){
     /* once we have the relation (promise resolved), convert to geojson and make the layer */
     var geojsonData = osmtogeojson(osmData);
     var geojsonLayer = L.geoJSON(geojsonData, {
