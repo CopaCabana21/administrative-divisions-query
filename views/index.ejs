@@ -37,7 +37,7 @@
             <button class="btn btn-light border container-fluid text-start" data-bs-toggle="collapse" data-bs-target="#searchSection" aria-expanded="false">Search a relation</button>
             <div id="searchSection" class="collapse">
                 <form id="countrySearchForm" class="form-inline my-2 d-flex" action="/" method="get">
-                    <input class="form-control mr-sm-2" type="search" placeholder="search a relation" aria-label="Search" name="countryName">
+                    <input class="form-control mr-sm-2" type="search" placeholder="search" aria-label="Search" name="countryName">
                     <button class="btn btn-outline-secondary" type="submit"><i class="bi bi-search"></i></button>
                 </form>
                 <div id="listSelector" class="list-group">
@@ -49,6 +49,13 @@
                         </div>
                     </div>
                 </div>  
+            </div>
+            
+            <button class="btn btn-light border container-fluid text-start" data-bs-toggle="collapse" data-bs-target="#addSelection" aria-expanded="false">Select administrative divisions</button>
+            <div id="addSelection" class="collapse">
+
+                <%- include('partials/addSelection.ejs', {addSelStruct: addSelectionStructure}) %>
+
             </div>
         </aside>
         <section id="elementsDisplay">
