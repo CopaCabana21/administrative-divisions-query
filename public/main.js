@@ -44,3 +44,15 @@ document.getElementById('countrySearchForm').addEventListener("submit", function
 
 
 });
+
+
+document.querySelectorAll("#addSelection .btn").forEach(ele => ele.addEventListener("click", function(){
+    // console.log(this.parentElement.querySelector("div"));
+    let elemClassList = this.parentElement.querySelector("div").classList;
+
+    if (elemClassList.contains('show')) {
+        elemClassList.remove('show');
+    } else {
+        elemClassList.add('show');
+    }
+}))
