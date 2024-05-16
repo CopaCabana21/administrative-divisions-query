@@ -1,0 +1,16 @@
+<% if (Object.keys(addSelStruct).length) { %>
+    <ul>
+        <% for (const [key, value] of Object.entries(addSelStruct)) {%>
+        <li>
+            <button class="btn"></button><span><%= value.name %></span>
+            <div class="collapsible">
+                <%- include('addSelection.ejs', {addSelStruct: value.childs}) %>
+            </div>
+        </li>
+        <% } %>
+    </ul>
+<% } else { %>
+    <ul></ul>
+<% } %>
+
+
