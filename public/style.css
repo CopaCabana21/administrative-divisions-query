@@ -211,27 +211,29 @@ aside > button {
 
 #addSelection ul{
     list-style-type: none;
+    padding-left: 15px;
 }
 
-#addSelection button::before{
-    width: 1.25em;
-    display: inline-block;
-    margin-right: 5px;
-    content: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='rgba%280,0,0,.5%29' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5 14l6-6-6-6'/%3e%3c/svg%3e");
-    transition: transform 0.5s ease;
-    transform-origin: 25% 50%;
-}
-
-#addSelection button[aria-expanded="true"]::before {
-    transform: rotate(90deg);
-}
-
-.collapsible{
+.content{
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.4s ease-out;
+    border-left: solid 1px black;
+    transition: max-height 0.5s ease-out;
+    margin-left: 4px;
 }
 
-.collapsible.show {
-    max-height: 100%; /* Adjust this value according to your content height */
-  }
+.arrow::before {
+    border: solid black;
+    border-width: 3px 3px 0 0;
+    display: inline-block;
+    padding: 3px;
+    content: "";
+    margin-right: 7px;
+    /* vertical-align: middle; */
+    transform: translateY(-20%) rotate(45deg);
+}
+
+
+.arrow-down::before{
+    transform: rotate(135deg);
+}

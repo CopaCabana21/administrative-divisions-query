@@ -2,15 +2,21 @@
     <ul>
         <% for (const [key, value] of Object.entries(addSelStruct)) {%>
         <li>
-            <button class="btn"></button><span><%= value.name %></span>
-            <div class="collapsible">
-                <%- include('addSelection.ejs', {addSelStruct: value.childs}) %>
-            </div>
+            <% if(Object.keys(value.childs).length) {%>
+                <span class="collapsible arrow"><%= value.name %></span>
+                <div class="content">
+                    <%- include('addSelection.ejs', {addSelStruct: value.childs}) %>
+                </div>
+            <% }else{ %>
+                <span class=""><%= value.name %></span>
+                <div class="content">
+                    <%- include('addSelection.ejs', {addSelStruct: value.childs}) %>
+                </div>
+            <% } %>
         </li>
         <% } %>
     </ul>
 <% } else { %>
-    <ul></ul>
 <% } %>
 
 

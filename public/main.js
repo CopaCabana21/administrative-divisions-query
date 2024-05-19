@@ -46,13 +46,28 @@ document.getElementById('countrySearchForm').addEventListener("submit", function
 });
 
 
-document.querySelectorAll("#addSelection .btn").forEach(ele => ele.addEventListener("click", function(){
-    // console.log(this.parentElement.querySelector("div"));
-    let elemClassList = this.parentElement.querySelector("div").classList;
+document.querySelectorAll("#addSelection .collapsible").forEach(ele => ele.addEventListener("click", function(){
+    
+    let content = this.nextElementSibling;
+    let parent = content.parentElement.closest(".content");
 
-    if (elemClassList.contains('show')) {
-        elemClassList.remove('show');
-    } else {
-        elemClassList.add('show');
+    this.classList.toggle("arrow-down");
+
+    // this style.maxHeight = "value" will add on top of the base css "max-height: 0;"
+    // Once it is removed the normal css "max-height: 0;" will apply
+    if(content.style.maxHeight){
+        content.style.maxHeight = null;
+        while(parent){
+            parent.style.maxHeight = parent.scrollHeight - content.scrollHeight + "px";
+            parent = parent.parentElement.closest(".content");
+        }
+    }else{
+        content.style.maxHeight = content.scrollHeight + "px";
+        while(parent){
+            parent.style.maxHeight = parent.scrollHeight + content.scrollHeight + "px";
+            parent = parent.parentElement.closest(".content");
+        }
     }
+
 }))
+
