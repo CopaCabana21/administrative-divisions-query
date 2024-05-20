@@ -214,6 +214,10 @@ aside > button {
     padding-left: 15px;
 }
 
+/* #addSelection > ul{
+    background-color: #f8f9fadd;
+} */
+
 .content{
     max-height: 0;
     overflow: hidden;
@@ -236,4 +240,10 @@ aside > button {
 
 .arrow-down::before{
     transform: rotate(135deg);
+}
+
+
+input.addSelCheckbox{
+    margin-left: 5px;
+    vertical-align: middle;
 }

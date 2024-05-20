@@ -48,7 +48,7 @@ document.getElementById('countrySearchForm').addEventListener("submit", function
 
 document.querySelectorAll("#addSelection .collapsible").forEach(ele => ele.addEventListener("click", function(){
     
-    let content = this.nextElementSibling;
+    let content = this.nextElementSibling.nextElementSibling;
     let parent = content.parentElement.closest(".content");
 
     this.classList.toggle("arrow-down");
