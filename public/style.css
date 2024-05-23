@@ -47,21 +47,28 @@ header{
 main{
     display: grid;
     grid-template-columns: 1fr 4fr;
-    min-height: 82vh;
+    height: 82vh;
 }
 
 
 aside{
     width: 350px;
     /* max-height: calc(100vh - var(--header-height) - var(--footer-height)); */
-    height: 0;
-    min-height: 100%;
+    /* height: 0; */
+    height: 82vh;
 
     border-right: 1px solid var(--foreground-color);
 
-    overflow-y: auto;
-    /* overflow-x: hidden; */
+
+    /* display: flex;
+    flex-direction: column;
+    overflow: hidden; */
+
+    display: grid;
+    grid-template-rows: auto 1fr;
+    overflow: hidden;
 }
+
 
 #elementsDisplay{
     display: flex;
@@ -91,8 +98,7 @@ aside{
 
 #countrySearchForm{
     display: flex;
-    margin-left: 5px;
-    margin-right: 5px;
+    margin: 5px 5px auto;
 }
 
 
@@ -190,7 +196,7 @@ tr{
     }
 }
 
-aside > button::before{
+aside > section > button::before{
     width: 1.25em;
     display: inline-block;
     margin-right: 5px;
@@ -199,14 +205,15 @@ aside > button::before{
     transform-origin: 25% 50%;
 }
 
-aside > button[aria-expanded="true"]::before {
+aside > section > button[aria-expanded="true"]::before {
     transform: rotate(90deg);
 }
 
 
-aside > button {
+aside > section > button {
     font-family: "Oswald", sans-serif !important;
 }
+
 
 
 #addSelection ul{
@@ -217,14 +224,6 @@ aside > button {
 /* #addSelection > ul{
     background-color: #f8f9fadd;
 } */
-
-.content{
-    max-height: 0;
-    overflow: hidden;
-    border-left: solid 1px black;
-    transition: max-height 0.5s ease-out;
-    margin-left: 4px;
-}
 
 .arrow::before {
     border: solid black;
@@ -242,8 +241,56 @@ aside > button {
     transform: rotate(135deg);
 }
 
-
 input.addSelCheckbox{
     margin-left: 5px;
     vertical-align: middle;
 }
+
+
+#addSelectionFilterSection{
+    margin: 5px 5px auto;
+}
+
+#addSelectionTools{
+    height: 45px;
+    padding: 5px;
+}
+
+#addSelectionTree{
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-top: 1px solid black;
+    overflow-y: auto;
+}
+
+#addSelectionTools button{
+    /* vertical-align: top !important; */
+    height: 30px;
+    font-size: 10px;
+}
+
+#addSelectionFilterSection input{
+    font-size: 0.8rem;
+}
+
+
+#select-add{
+    display: grid;
+    grid-template-rows: auto 1fr;
+    overflow: hidden;
+}
+
+#add-selection-grid{
+    height: 100%;
+    display: grid;
+    grid-template-rows: auto auto 1fr;
+}
+
+#addSelection{
+    overflow: hidden;
+}
+
+
+
+
+

@@ -1,22 +1,12 @@
 <% if (Object.keys(addSelStruct).length) { %>
     <ul>
         <% for (const [key, value] of Object.entries(addSelStruct)) {%>
-        <li>
-            <% if(Object.keys(value.childs).length) {%>
-                <span id=<%= "osm-rel-"+ key %> class="collapsible arrow"><%= value.name %></span><input type="checkbox" class="addSelCheckbox">
-                <div class="content">
-                    <%- include('addSelection.ejs', {addSelStruct: value.childs}) %>
-                </div>
-            <% }else{ %>
-                <span class=""><%= value.name %></span><input type="checkbox" class="addSelCheckbox">
-                <div class="content">
-                    <%- include('addSelection.ejs', {addSelStruct: value.childs}) %>
-                </div>
-            <% } %>
-        </li>
+            <li id=<%= "osm-rel-"+ key %>>
+                <%= value.name %>
+                <%- include('addSelection.ejs', {addSelStruct: value.childs}) %>
+            </li>
         <% } %>
     </ul>
-<% } else { %>
 <% } %>
 
 

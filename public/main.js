@@ -18,6 +18,7 @@ layer.addTo(map);
 
 /* handle search form */
 document.getElementById('countrySearchForm').addEventListener("submit", function(event){
+    // prevents the default behaviour of the form
     event.preventDefault();
     const searchQuery = document.querySelector('#countrySearchForm > input').value;
 
@@ -71,3 +72,25 @@ document.querySelectorAll("#addSelection .collapsible").forEach(ele => ele.addEv
 
 }))
 
+$("#addSelectionTree").jstree({
+    "core": {
+        'themes': {
+            'icons': false
+          }
+    },
+    "plugins": ["checkbox", 'wholerow', "search"],
+    "checkbox": {
+        "three_state": false
+    },
+    "search": {
+        "show_only_matches": true
+    }
+});
+
+$("#addSelectionFilter").on("change", function(){
+    $("#addSelectionTree").jstree(true).search($(this).val());
+});
+
+$("#addSelectionReset").on("click", function(){
+    $("#addSelectionFilter").val("").trigger("change").focus();
+})

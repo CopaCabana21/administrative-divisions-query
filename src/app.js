@@ -9,9 +9,6 @@ app.use(express.static('public'));
 
 const addSelectionStructure = JSON.parse(fs.readFileSync("./src/data/add/288247/addSelectionStructure.json"));
 
-// console.log(addSellectionTags);
-
-
 app.get("/", (req, res) => {
   res.render("index.ejs", {addSelectionStructure: addSelectionStructure});
 })
