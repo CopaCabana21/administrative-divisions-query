@@ -2,9 +2,12 @@
 async function getRelation(relationID) {
     var endPoint = "https://overpass-api.de/api/interpreter";
 
+    // to accept an array
+    let idsArray = ((typeof relationID) == "number")? [relationID] : relationID;
+
     let query = `
     [out:json][timeout:90];
-    rel(${relationID});
+    rel(id:${idsArray.join(",")});
     out geom;
     `;
     

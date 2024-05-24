@@ -72,6 +72,8 @@ document.querySelectorAll("#addSelection .collapsible").forEach(ele => ele.addEv
 
 }))
 
+// Make and handle jstree
+
 $("#addSelectionTree").jstree({
     "core": {
         'themes': {
@@ -87,10 +89,20 @@ $("#addSelectionTree").jstree({
     }
 });
 
-$("#addSelectionFilter").on("change", function(){
+$("#addSelectionFilter").on("input", function(){
     $("#addSelectionTree").jstree(true).search($(this).val());
 });
 
 $("#addSelectionReset").on("click", function(){
-    $("#addSelectionFilter").val("").trigger("change").focus();
+    // $("#addSelectionFilter").val("").trigger("change").focus();
+    $("#addSelectionTree").jstree(true).deselect_all();
+})
+
+
+$("#addSelectionPlot").on("click", function(e){
+    let selected = $("#addSelectionTree").jstree(true).get_selected();
+    selected.forEach((ele, index, arr)=>{
+        arr[index] = ele.replace("osm-rel-","");
+    });
+    console.log(selected);
 })

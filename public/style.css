@@ -168,9 +168,9 @@ tr{
 @media (max-width: 768px){
     main{
         grid-template-columns: 1fr;
-        grid-template-rows: fit-content(250px) 1fr;
+        grid-template-rows: fit-content(400px) 1fr;
 
-        height: 90vh;
+        height: 82vh;
     }
 
     aside{
@@ -182,6 +182,8 @@ tr{
         /* revert height to default because we started with 0 */
         height: auto;
     }
+
+
 
     header {
         flex-direction: column;
@@ -266,10 +268,12 @@ input.addSelCheckbox{
 #addSelectionTools button{
     /* vertical-align: top !important; */
     height: 30px;
+    width: 45px;
     font-size: 10px;
+    padding: 0;
 }
 
-#addSelectionFilterSection input{
+#addSelectionFilterSection input[type="search"]{
     font-size: 0.8rem;
 }
 
@@ -289,8 +293,5 @@ input.addSelCheckbox{
 #addSelection{
     overflow: hidden;
 }
-
-
-
 
 
