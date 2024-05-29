@@ -64,9 +64,9 @@ aside{
     flex-direction: column;
     overflow: hidden; */
 
-    display: grid;
-    grid-template-rows: auto 1fr;
-    overflow: hidden;
+    /* display: grid;
+    grid-template-rows: auto 1fr; */
+    overflow-y: auto;
 }
 
 
@@ -262,7 +262,7 @@ input.addSelCheckbox{
     padding-top: 5px;
     padding-bottom: 5px;
     border-top: 1px solid black;
-    overflow-y: auto;
+    /* overflow-y: auto; */
 }
 
 #addSelectionTools button{
@@ -279,19 +279,19 @@ input.addSelCheckbox{
 
 
 #select-add{
-    display: grid;
-    grid-template-rows: auto 1fr;
-    overflow: hidden;
+    /* display: grid;
+    grid-template-rows: auto 1fr; */
+    /* overflow: hidden; */
 }
 
 #add-selection-grid{
     height: 100%;
-    display: grid;
-    grid-template-rows: auto auto 1fr;
+    /* display: grid;
+    grid-template-rows: auto auto 1fr; */
 }
 
 #addSelection{
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 
 
