@@ -10,24 +10,21 @@ async function getRelation(relationID) {
     rel(id:${idsArray.join(",")});
     out geom;
     `;
-    
-    try{
 
-        let response = await fetch(endPoint, {method: "POST", body: ("data=" + encodeURIComponent(query))});
-        // console.log(response);
+    let response = await fetch(endPoint, {method: "POST", body: ("data=" + encodeURIComponent(query))});
 
-        if(!response.ok){
-            /* a not ok response doesn't throw an error, so throw one and add the response object */
-            throw new Error("Feth response was not ok", {cause: response});
-        }
-
-        let data = await response.json();
-        return data;
-    }catch (error){
-        // console.log("Error fetching data: ", error);
-        /* re-throw error */
-        throw error; 
+    if(!response.ok){
+        /* a not ok response doesn't throw an error, so throw one and add the response object */
+        throw new Error("Fetch response was not ok", {cause: response});
     }
+
+    let osmRes = await response.json();
+
+    if(osmRes.elements.length === 0){
+        throw new Error("Fetch response has empty elements");
+    }
+
+    return osmRes;
 }
 
 /* get result from nominatim search engine */
@@ -96,6 +93,7 @@ function addListElement(element, map){
             .then(x => {
                 /* hide busy icon */
                 document.getElementById("busyIcon").style.visibility = "hidden";
+                // resolved promise with the value x
                 return x;
             })
             .then(x => {
@@ -103,9 +101,16 @@ function addListElement(element, map){
                 makeOSMTagTableElement(x.elements[0].tags);
             })
             .catch(err => {
-                console.log("Error fetching relation: ", `${err.message}: ${err.cause.status}-${err.cause.statusText}`);
 
-                document.querySelector("#elementsDisplay div.alert p").textContent = `${err.message}: ${err.cause.status}-${err.cause.statusText}`;
+                if(err.cause){
+                    console.log("Error fetching relation: ", `${err.message}: ${err.cause.status}-${err.cause.statusText}`);
+
+                    document.querySelector("#elementsDisplay div.alert p").textContent =`${err.message}:\n ${err.cause.status} - ${err.cause.statusText}`;
+                }else{
+                    document.querySelector("#elementsDisplay div.alert p").textContent = `${err.message}`;
+                };
+                
+
                 /* hide busy icon */
                 document.getElementById("busyIcon").style.visibility = "hidden";
                 /* show alert */
