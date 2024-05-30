@@ -1,4 +1,4 @@
-import {getRelation, getNominatimSearch, addListElement, makeSlippyMap, removeListElements} from './utils.js';
+import {getRelation, getNominatimSearch, addListElement, makeOSMIdsSlippyMap, removeListElements} from './utils.js';
 
 // var input = document.querySelector("input");
 // input.setAttribute('size',input.getAttribute('placeholder').length);
@@ -12,9 +12,6 @@ const layer = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 });
 
 layer.addTo(map);
-
-/* test relation */
-// getRelation(288247).then(res => makeSlippyMap(res));
 
 /* handle search form */
 document.getElementById('countrySearchForm').addEventListener("submit", function(event){
@@ -104,5 +101,6 @@ $("#addSelectionPlot").on("click", function(e){
     selected.forEach((ele, index, arr)=>{
         arr[index] = ele.replace("osm-rel-","");
     });
-    console.log(selected);
+    /* plot slippy map for selected relations */
+    makeOSMIdsSlippyMap(selected, map);
 })

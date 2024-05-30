@@ -101,20 +101,10 @@ function addListElement(element, map){
                 makeOSMTagTableElement(x.elements[0].tags);
             })
             .catch(err => {
-
-                if(err.cause){
-                    console.log("Error fetching relation: ", `${err.message}: ${err.cause.status}-${err.cause.statusText}`);
-
-                    document.querySelector("#elementsDisplay div.alert p").textContent =`${err.message}:\n ${err.cause.status} - ${err.cause.statusText}`;
-                }else{
-                    document.querySelector("#elementsDisplay div.alert p").textContent = `${err.message}`;
-                };
-                
-
                 /* hide busy icon */
                 document.getElementById("busyIcon").style.visibility = "hidden";
                 /* show alert */
-                document.querySelector("#elementsDisplay div.alert").style.visibility = "visible";
+                showSlippyAlert(err);
             });
     });
 }
@@ -199,7 +189,34 @@ function makeOSMTagTableElement(osmTags){
 }
 
 
+function makeOSMIdsSlippyMap(OSMIds, map){
+    /* show busy icon */
+    document.getElementById("busyIcon").style.visibility = "visible";
+
+    getRelation(OSMIds)
+        .then(osmData => {
+            makeSlippyMap(osmData, map);
+        })
+        .catch(err => {
+            /* show alert */
+            showSlippyAlert(err);
+        });
+}
+
+function showSlippyAlert(err){
+
+    /* hide busy icon */
+    document.getElementById("busyIcon").style.visibility = "hidden";  
+
+    if(err.cause){
+        document.querySelector("#elementsDisplay div.alert p").textContent =`${err.message}:\n ${err.cause.status} - ${err.cause.statusText}`;
+    }else{
+        document.querySelector("#elementsDisplay div.alert p").textContent = `${err.message}`;
+    };
+
+    /* display alert */
+    document.querySelector("#elementsDisplay div.alert").style.visibility = "visible";
+}
 
 
-
-export {getRelation, getNominatimSearch, addListElement, makeSlippyMap, removeListElements};
+export {getRelation, getNominatimSearch, addListElement, makeSlippyMap, makeOSMIdsSlippyMap, removeListElements};
