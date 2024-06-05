@@ -70,7 +70,7 @@ document.querySelectorAll("#addSelection .collapsible").forEach(ele => ele.addEv
 }))
 
 /**
- *TODO: make a jstree plugin to add button, later it is taking me to much time
+ *TODO: make a jstree plugin to add button later, it is taking me too much time
   */
 // (function($, undefined){
 //     "use strict";
@@ -111,7 +111,7 @@ $("#addSelectionTree").jstree({
     "plugins": ["checkbox", 'wholerow', "search", "dotsMenu"],
     "checkbox": {
         "three_state": false,
-        // "cascade": "down"
+        "cascade": "down"
     },
     "search": {
         "show_only_matches": true
@@ -135,4 +135,18 @@ $("#addSelectionPlot").on("click", function(e){
     });
     /* plot slippy map for selected relations */
     makeOSMIdsSlippyMap(selected, map);
+})
+
+/* only the immediate children should be selected */
+$("#addSelectionTree").on("select_node.jstree", function(e, data){
+
+    // console.log(data.node);
+    let children = data.node.children;
+    /* complement from all children */
+    let childrenDeselect = data.node.children_d.filter(x => !children.includes(x));
+    /* true, disable changed.jstree event */
+    childrenDeselect.forEach( child =>{
+        $(this).jstree("deselect_node", child, true);
+    });
+
 })
