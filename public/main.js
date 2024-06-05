@@ -15,7 +15,7 @@ layer.addTo(map);
 
 /* handle search form */
 document.getElementById('countrySearchForm').addEventListener("submit", function(event){
-    // prevents the default behaviour of the form
+    /* prevents the default behaviour of the form */
     event.preventDefault();
     const searchQuery = document.querySelector('#countrySearchForm > input').value;
 
@@ -51,8 +51,8 @@ document.querySelectorAll("#addSelection .collapsible").forEach(ele => ele.addEv
 
     this.classList.toggle("arrow-down");
 
-    // this style.maxHeight = "value" will add on top of the base css "max-height: 0;"
-    // Once it is removed the normal css "max-height: 0;" will apply
+    /* this style.maxHeight = "value" will add on top of the base css "max-height: 0;"
+    Once it is removed the normal css "max-height: 0;" will apply */
     if(content.style.maxHeight){
         content.style.maxHeight = null;
         while(parent){
@@ -69,17 +69,49 @@ document.querySelectorAll("#addSelection .collapsible").forEach(ele => ele.addEv
 
 }))
 
-// Make and handle jstree
+/**
+ *TODO: make a jstree plugin to add button, later it is taking me to much time
+  */
+// (function($, undefined){
+//     "use strict";
+//     $.jstree.defaults.dotsMenu = {
+//         dotsMenu_option : "sample",
+//     };
+    
+//     /* define the actual plugin */
+//     $.jstree.plugins.dotsMenu = function(options, parent){
 
+//         this.redraw_node = function(obj, deep, callback, force_draw){
+//             obj = parent.redraw_node.call(this, obj, deep, callback, force_draw);
+
+//             if(obj){
+//                 var $button = $('<button class="custom-btn">Click Me</button>');
+//                 $(obj).append($button);
+
+//                 $button.on('click', function(event) {
+//                     event.stopPropagation();
+//                     console.log('Button clicked for node: ' + $(obj).attr('id'));
+//                 });
+//             }
+
+//             return obj;
+//         };
+//     };
+// })(jQuery);
+
+
+
+/* Make and handle jstree */
 $("#addSelectionTree").jstree({
     "core": {
         'themes': {
             'icons': false
           }
     },
-    "plugins": ["checkbox", 'wholerow', "search"],
+    "plugins": ["checkbox", 'wholerow', "search", "dotsMenu"],
     "checkbox": {
-        "three_state": false
+        "three_state": false,
+        // "cascade": "down"
     },
     "search": {
         "show_only_matches": true
