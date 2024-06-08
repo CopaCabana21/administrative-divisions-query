@@ -120,20 +120,33 @@ function removeListElements(){
     });
 }
 
-//! /* var lexical scope is outside the function */
-//! // var map;
+
+
+/* tooltip function */
+function featureTooltip(feature, layer){
+    layer.bindTooltip(`${feature.properties.name} (${feature.properties.id.replace("relation/","")})`);
+
+    /* add click event */
+    layer.on("click", function(){
+        layer.openTooltip();
+    });
+
+}
 
 function makeSlippyMap(osmData, map){
-    /* once we have the relation (promise resolved), convert to geojson and make the layer */
+
+    /* once we have the relation (promise resolved), convert to geojson  */
     var geojsonData = osmtogeojson(osmData);
+    /* and make the layer */
     var geojsonLayer = L.geoJSON(geojsonData, {
         filter: function(feature, layer){
             return !(feature.id.includes('node'));
-        }
+        },
+        /* add tooltip */
+        onEachFeature: featureTooltip
     });
 
-    /* first get bounds of the content and set that as bounds */
-    /* check if map is already initialized in the same container. The lexical scope of var is outside so it doesn't create a new var each time */
+
     
     //! /*
     //! this was a check using the variable, which was global scope of utils.js.

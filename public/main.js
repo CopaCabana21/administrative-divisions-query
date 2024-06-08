@@ -70,7 +70,7 @@ document.querySelectorAll("#addSelection .collapsible").forEach(ele => ele.addEv
 }))
 
 /**
- *TODO: make a jstree plugin to add button later, it is taking me too much time
+ *TODO: make a jstree plugin to add button later, it is taking me too much time, use customMenu instead
   */
 // (function($, undefined){
 //     "use strict";
@@ -106,15 +106,44 @@ $("#addSelectionTree").jstree({
     "core": {
         'themes': {
             'icons': false
-          }
+          },
+        "dblclick_toggle": false,
+        "check_callback": false
     },
-    "plugins": ["checkbox", 'wholerow', "search", "dotsMenu"],
+    "plugins": ["checkbox", 'wholerow', "search", "contextmenu"],
     "checkbox": {
         "three_state": false,
-        "cascade": "down"
+        // "cascade": "down",
+        "whole_node": false,
     },
     "search": {
         "show_only_matches": true
+    },
+    "contextmenu":{
+        "items": function(node){
+            return {
+                "immediateChilds": {
+                    "label": "select immediate childs",
+                    /* obj is the button object */
+                    "action": function(obj){
+                        // console.log(node);
+                        // console.log(obj);
+                        /* select only immediate children */
+                        node.children.forEach( child =>{
+                            $(node).jstree("select_node", child, true);
+                        });
+                    }
+                },
+                "allChilds": {
+                    "label": "select all childs",
+                    "action": function(obj){
+                        node.children_d.forEach( child =>{
+                            $(node).jstree("select_node", child, true);
+                        });
+                    }
+                }
+            }
+        }
     }
 });
 
@@ -137,16 +166,21 @@ $("#addSelectionPlot").on("click", function(e){
     makeOSMIdsSlippyMap(selected, map);
 })
 
+
+//! -----------------------------------------------
+//! old way of selection immediate childs
 /* only the immediate children should be selected */
-$("#addSelectionTree").on("select_node.jstree", function(e, data){
+/* This uses cascade down checkbox */
+// $("#addSelectionTree").on("select_node.jstree", function(e, data){
 
-    // console.log(data.node);
-    let children = data.node.children;
-    /* complement from all children */
-    let childrenDeselect = data.node.children_d.filter(x => !children.includes(x));
-    /* true, disable changed.jstree event */
-    childrenDeselect.forEach( child =>{
-        $(this).jstree("deselect_node", child, true);
-    });
+//     // console.log(data.node);
+//     let children = data.node.children;
+//     /* complement from all children */
+//     let childrenDeselect = data.node.children_d.filter(x => !children.includes(x));
+//     /* true, disable changed.jstree event */
+//     childrenDeselect.forEach( child =>{
+//         $(this).jstree("deselect_node", child, true);
+//     });
 
-})
+// })
+//! -----------------------------------------------
