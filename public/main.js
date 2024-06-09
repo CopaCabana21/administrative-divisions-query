@@ -43,35 +43,36 @@ document.getElementById('countrySearchForm').addEventListener("submit", function
 
 });
 
-
-document.querySelectorAll("#addSelection .collapsible").forEach(ele => ele.addEventListener("click", function(){
+//! ----------------------------------------------------------------------------
+//! old way to handle add selection height
+// document.querySelectorAll("#addSelection .collapsible").forEach(ele => ele.addEventListener("click", function(){
     
-    let content = this.nextElementSibling.nextElementSibling;
-    let parent = content.parentElement.closest(".content");
+//     let content = this.nextElementSibling.nextElementSibling;
+//     let parent = content.parentElement.closest(".content");
 
-    this.classList.toggle("arrow-down");
+//     this.classList.toggle("arrow-down");
 
-    /* this style.maxHeight = "value" will add on top of the base css "max-height: 0;"
-    Once it is removed the normal css "max-height: 0;" will apply */
-    if(content.style.maxHeight){
-        content.style.maxHeight = null;
-        while(parent){
-            parent.style.maxHeight = parent.scrollHeight - content.scrollHeight + "px";
-            parent = parent.parentElement.closest(".content");
-        }
-    }else{
-        content.style.maxHeight = content.scrollHeight + "px";
-        while(parent){
-            parent.style.maxHeight = parent.scrollHeight + content.scrollHeight + "px";
-            parent = parent.parentElement.closest(".content");
-        }
-    }
+//     /* this style.maxHeight = "value" will add on top of the base css "max-height: 0;"
+//     Once it is removed the normal css "max-height: 0;" will apply */
+//     if(content.style.maxHeight){
+//         content.style.maxHeight = null;
+//         while(parent){
+//             parent.style.maxHeight = parent.scrollHeight - content.scrollHeight + "px";
+//             parent = parent.parentElement.closest(".content");
+//         }
+//     }else{
+//         content.style.maxHeight = content.scrollHeight + "px";
+//         while(parent){
+//             parent.style.maxHeight = parent.scrollHeight + content.scrollHeight + "px";
+//             parent = parent.parentElement.closest(".content");
+//         }
+//     }
+// }))
+//! ----------------------------------------------------------------------------
 
-}))
+// TODO: -----------------------------------------------------------------------
+// TODO: make a jstree plugin to add button later, it is taking me too much time, use customMenu instead
 
-/**
- *TODO: make a jstree plugin to add button later, it is taking me too much time, use customMenu instead
-  */
 // (function($, undefined){
 //     "use strict";
 //     $.jstree.defaults.dotsMenu = {
@@ -98,6 +99,7 @@ document.querySelectorAll("#addSelection .collapsible").forEach(ele => ele.addEv
 //         };
 //     };
 // })(jQuery);
+// TODO: -----------------------------------------------------------------------
 
 
 
