@@ -296,3 +296,6 @@ input.addSelCheckbox{
 }
 
 
+.leaflet-popup-content{
+    margin: 7px 15px 7px 7px;
+}

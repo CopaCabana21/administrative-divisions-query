@@ -123,13 +123,19 @@ function removeListElements(){
 
 
 /* tooltip function */
-function featureTooltip(feature, layer){
-    layer.bindTooltip(`${feature.properties.name} (${feature.properties.id.replace("relation/","")})`);
+function featureTooltip(feature, layer, map){
 
-    /* add click event */
-    layer.on("click", function(){
-        layer.openTooltip();
+    let tooltip = layer.bindPopup(
+        `<a class="custom-bindPopup" href="https://www.openstreetmap.org/relation/${feature.properties.id.replace("relation/","")}"> ${feature.properties.name} (${feature.properties.id.replace("relation/","")})</a>`,
+        {
+            autoPan: false
+        }
+    );
+
+    tooltip.on('mouseover', function (e) {
+        this.openPopup();
     });
+
 
 }
 
@@ -203,6 +209,8 @@ function makeOSMTagTableElement(osmTags){
 
 
 function makeOSMIdsSlippyMap(OSMIds, map){
+    /* hide alerts */
+    document.querySelector("#elementsDisplay div.alert").style.visibility = "hidden";
     /* show busy icon */
     document.getElementById("busyIcon").style.visibility = "visible";
 
