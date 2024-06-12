@@ -186,3 +186,53 @@ $("#addSelectionPlot").on("click", function(e){
 
 // })
 //! -----------------------------------------------
+
+
+/* make download feature */
+$("#addSelectionDownload").on("click", function(){
+
+    let jsonTreeStructure = $("#addSelectionTree").jstree(true).get_json();
+    /* the get_json returns the whole tree, so filter only the selected nodes */
+    console.log(filterSelectedArray(jsonTreeStructure));
+    let selectedStructure = JSON.stringify(filterSelectedArray(jsonTreeStructure), null, 2);
+
+    /* trigger anchor element to download */
+    donwload(selectedStructure, 'selected_structure.json', 'application/json')
+});
+
+/* Give each element an specific format */
+function formatElem(elem){
+    return (({id,children,text})=>({
+        osm_id: id.replace("osm-rel-",""),
+        name: text.replace(/\n/gi, "").trim(),
+        children : children
+    }))(elem);
+}
+
+/* Use recursive function to filter only selected elements */
+function filterSelectedArray(selectedArray){
+    
+    let filteredArray = [];
+    let formattedElem;
+    // debugger
+    selectedArray.map(function(ele){
+        if(ele.state.selected == true){
+            formattedElem = formatElem({...ele, children: filterSelectedArray(ele.children)});
+            filteredArray.push(formattedElem);
+        }else{
+            filteredArray = [...filteredArray, ...filterSelectedArray(ele.children)];
+        }
+    });
+
+    return filteredArray;
+}
+
+/* handle the download with anchor element */
+function donwload(content, filename, contentType){
+    let a = document.createElement("a");
+    let file = new Blob([content], {type: contentType});
+    /* createObjectURL makes the file available indisk to use as href */
+    a.href = URL.createObjectURL(file);
+    a.download = filename;
+    a.click();
+}
