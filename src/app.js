@@ -10,9 +10,9 @@ app.use(express.static('public'));
 const addSelectionStructure = JSON.parse(fs.readFileSync("./src/data/add/288247/addSelectionStructure.json"));
 
 app.get("/", (req, res) => {
-  res.render("index.ejs", {addSelectionStructure: addSelectionStructure});
+    res.render("index.ejs", {addSelectionStructure: addSelectionStructure});
 })
 
 app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+    console.log(`Server is running on port ${port}`);
 });
