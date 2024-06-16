@@ -35,6 +35,41 @@
 
     </header>
     <main>
+        <!-- popup menu to select download configuration -->
+        <div class="m-popup-background"></div>
+        <div class="m-popup">
+            <div class="m-popup-content">
+                <form action="/" class="m-popup-body" id="form-download-structure">
+                    <div class="download-structure">
+                        <div>structure:</div>
+                        <label for="download-structure-tree">tree</label>
+                        <input type="radio" name="download-structure" id="download-structure-tree" checked>
+                        <label for="download-structure-nodes">flatten</label>
+                        <input type="radio" name="download-structure" id="download-structure-nodes">
+                    </div>
+                    <hr>
+                    <div class="download-format">
+                        <div>format:</div>
+                        <label for="download-format-json">json</label>
+                        <input type="radio" name="download-format" id="download-format-json" checked>
+                        <label for="download-format-xml">xml</label>
+                        <input type="radio" name="download-format" id="download-format-xml">
+                    </div>
+                    <hr>
+                    <div class="download-include-data">
+                        <div>include data:</div>
+                        <label for="download-include-data-simple">simple</label>
+                        <input type="radio" name="download-include-data" id="download-include-data-simple" checked>
+                        <label for="download-include-data-osm-tags">osm tags</label>
+                        <input type="radio" name="download-include-data" id="download-include-data-osm-tags">
+                        <label for="download-include-data-osm-geometry">osm geometry</label>
+                        <input type="radio" name="download-include-data" id="download-include-data-osm-geometry">
+                    </div>
+                    <hr>
+                    <button class="btn btn-outline-secondary" id="popupMenuDownload">download</button>
+                </form>
+            </div>
+        </div>
         <aside>
             <section id="search-relation">
                 <button class="btn btn-light border container-fluid text-start" data-bs-toggle="collapse" data-bs-target="#searchSection" aria-expanded="false">Search a relation</button>
@@ -67,7 +102,7 @@
                         <div id="addSelectionTools">
                             <button id="addSelectionReset" class="btn btn-outline-secondary">Reset</button>
                             <button id="addSelectionPlot" class="btn btn-outline-secondary">Plot</button>
-                            <button id="addSelectionDownload" class="btn btn-outline-secondary">Download</button>
+                            <button id="addSelectionDownloadPopupMenu" class="btn btn-outline-secondary">Download</button>
                         </div>
                         
                         <div id="addSelectionTree">
@@ -124,6 +159,7 @@
     </symbol>
     </svg>
 
+    <script src="./bundle.js"></script>
     <!-- utility modules -->
     <script type="module" src="./leaflet/leaflet.js"></script>
     <script type="module" src="./osmtogeojson-min.js"></script>

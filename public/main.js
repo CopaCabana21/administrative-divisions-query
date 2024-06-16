@@ -1,4 +1,5 @@
-import {getRelation, getNominatimSearch, addListElement, makeOSMIdsSlippyMap, removeListElements} from './utils.js';
+import {getNominatimSearch, addListElement, makeOSMIdsSlippyMap, removeListElements} from './utils.js';
+import './bundle.js';
 
 // var input = document.querySelector("input");
 // input.setAttribute('size',input.getAttribute('placeholder').length);
@@ -188,51 +189,110 @@ $("#addSelectionPlot").on("click", function(e){
 //! -----------------------------------------------
 
 
-/* make download feature */
-$("#addSelectionDownload").on("click", function(){
+/* -------------------------------------------------------------------------- */
+/* Handle download of selected tree */
 
-    let jsonTreeStructure = $("#addSelectionTree").jstree(true).get_json();
-    /* the get_json returns the whole tree, so filter only the selected nodes */
-    console.log(filterSelectedArray(jsonTreeStructure));
-    let selectedStructure = JSON.stringify(filterSelectedArray(jsonTreeStructure), null, 2);
-
-    /* trigger anchor element to download */
-    donwload(selectedStructure, 'selected_structure.json', 'application/json')
+/* make the popup menu show up */
+$("#addSelectionDownloadPopupMenu").on("click", function(){
+    $(".m-popup").toggleClass("show");
+    $(".m-popup-background").toggleClass("show");
 });
 
+/* click outside to close menu */
+$(".m-popup-background").on("click",function(){
+    $(".m-popup").toggleClass("show");
+    $(".m-popup-background").toggleClass("show");
+})
+
+/* make download feature */
+function popupMenuDownload(dlStruct, dlFormat, dlIncludeData){
+
+    let jstreeData;
+    if(dlStruct.id == "download-structure-tree"){
+
+        jstreeData = $("#addSelectionTree").jstree(true).get_json();
+        jstreeData = filterSelectedArray(jstreeData);
+    }else if(dlStruct.id == "download-structure-nodes"){
+
+        jstreeData = $("#addSelectionTree").jstree(true).get_selected(true);
+        jstreeData = jstreeData.map(node => formatNode(node));
+        // jstreeData = buildTree(jstreeData);
+    }
+    
+    const xml = mlib.json2xml(jstreeData, { compact: true, spaces: 4 });
+    console.log(xml);
+    /* the get_json returns the whole tree, so filter only the selected nodes */
+    jstreeData = JSON.stringify(jstreeData, null, 2);
+
+    /* trigger anchor element to download */
+    // donwload(selectedStructure, 'selected_elements.json', 'application/json')
+
+
+};
+
 /* Give each element an specific format */
-function formatElem(elem){
-    return (({id,children,text})=>({
-        osm_id: id.replace("osm-rel-",""),
+function formatNode(node){
+
+    return (({id, text, parent, children})=>({
+        id: id.replace("osm-rel-",""),
         name: text.replace(/\n/gi, "").trim(),
-        children : children
-    }))(elem);
+        parent: parent.replace("osm-rel-",""),
+        children: children.every(ele => typeof ele == "string")? children.map(id => id.replace("osm-rel-","")) : children
+        })
+    )(node);
 }
 
 /* Use recursive function to filter only selected elements */
-function filterSelectedArray(selectedArray){
-    
+function filterSelectedArray(selectedArray, parentId ="#"){
+
     let filteredArray = [];
     let formattedElem;
-    // debugger
     selectedArray.map(function(ele){
         if(ele.state.selected == true){
-            formattedElem = formatElem({...ele, children: filterSelectedArray(ele.children)});
+            formattedElem = formatNode({...ele, parent: parentId, children: filterSelectedArray(ele.children, ele.id)});
             filteredArray.push(formattedElem);
         }else{
-            filteredArray = [...filteredArray, ...filterSelectedArray(ele.children)];
+            filteredArray = [...filteredArray, ...filterSelectedArray(ele.children, ele.id)];
         }
     });
 
     return filteredArray;
 }
 
+/* build tree: another way to get the json structure from flattened get_selected*/
+function buildTree(selected, parentId = "#"){
+
+    let tree = selected.filter(node => node.parent == parentId);
+    tree = tree.map(node => ({...node, children: buildTree(selected, node.id)}));
+    return tree;
+}
+
 /* handle the download with anchor element */
 function donwload(content, filename, contentType){
     let a = document.createElement("a");
     let file = new Blob([content], {type: contentType});
-    /* createObjectURL makes the file available indisk to use as href */
+    /* createObjectURL makes the file available in disk to use as href */
     a.href = URL.createObjectURL(file);
     a.download = filename;
+
+    /* wait and then revoke the object */
+    a.addEventListener("click", function(){
+        setTimeout(()=>URL.revokeObjectURL(a.href), 200);
+    });
     a.click();
 }
+
+
+/* handle form behaviour */
+document.getElementById("form-download-structure").addEventListener("submit", handleSelectionDownload);
+
+function handleSelectionDownload(event){
+    event.preventDefault();
+    let dlStruct = document.querySelector(".download-structure input:checked");
+    let dlFormat = document.querySelector(".download-format input:checked");
+    let dlIncludeData = document.querySelector(".download-include-data input:checked");
+
+    popupMenuDownload(dlStruct, dlFormat, dlIncludeData);   
+}
+
+/* -------------------------------------------------------------------------- */
