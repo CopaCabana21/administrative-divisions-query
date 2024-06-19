@@ -7,10 +7,10 @@ const port = 3000;
 /* setup static file folders */
 app.use(express.static('public'));
 
-const addSelectionStructure = JSON.parse(fs.readFileSync("./src/data/add/288247/addSelectionStructure.json"));
+const addTagsTree = JSON.parse(fs.readFileSync("./data/add/288247/addMinTree.json"));
 
 app.get("/", (req, res) => {
-    res.render("index.ejs", {addSelectionStructure: addSelectionStructure});
+    res.render("index.ejs", {addSelectionStructure: addTagsTree});
 })
 
 app.listen(port, () => {
