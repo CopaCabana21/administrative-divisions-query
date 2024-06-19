@@ -1,5 +1,6 @@
-import {getNominatimSearch, addListElement, makeOSMIdsSlippyMap, removeListElements} from './utils.js';
+import {getNominatimSearch, addListElement, makeOSMIdsSlippyMap, removeListElements, getRelation, makeOSMTagsIndex, flattenTree, buildTree} from './utils.js';
 import './bundle.js';
+
 
 // var input = document.querySelector("input");
 // input.setAttribute('size',input.getAttribute('placeholder').length);
@@ -204,68 +205,107 @@ $(".m-popup-background").on("click",function(){
     $(".m-popup-background").toggleClass("show");
 })
 
+
 /* make download feature */
-function popupMenuDownload(dlStruct, dlFormat, dlIncludeData){
+async function popupMenuDownload(dlStruct, dlFormat, dlIncludeData){
 
-    let jstreeData;
-    if(dlStruct.id == "download-structure-tree"){
+    let jstreeData, addTagsTreeFetch, addTagsTree, osmRawResp, osmTagsIndex;
 
-        jstreeData = $("#addSelectionTree").jstree(true).get_json();
-        jstreeData = filterSelectedArray(jstreeData);
-    }else if(dlStruct.id == "download-structure-nodes"){
+    /* 
+    Use only json to conserve structure, get_selected() doesn't keep the selected parents
+    */
+    jstreeData = $("#addSelectionTree").jstree(true).get_json();
+    /* get only selected nodes */
+    jstreeData = filterSelectedNodes(jstreeData);
 
-        jstreeData = $("#addSelectionTree").jstree(true).get_selected(true);
-        jstreeData = jstreeData.map(node => formatNode(node));
-        // jstreeData = buildTree(jstreeData);
-    }
+    /* adds key "_parent" to conserve structure */
+    jstreeData = flattenTree(jstreeData, "children_all_selected");
     
-    const xml = mlib.json2xml(jstreeData, { compact: true, spaces: 4 });
-    console.log(xml);
-    /* the get_json returns the whole tree, so filter only the selected nodes */
-    jstreeData = JSON.stringify(jstreeData, null, 2);
+    /* form include data: simple/osm=tags/osm-geometry */
+    if(dlIncludeData.id != "download-include-data-simple"){
+
+        let selectedIDs = jstreeData.map(node => node.id.replace("osm-rel-",""));
+
+        /* query osm tags */
+        try{
+            /* Check include osm-geometry was selected */
+            osmRawResp = await getRelation(selectedIDs, (dlIncludeData.id == "download-include-data-osm-tags")? "tags" : "geom");
+        }catch(error){
+            console.log(error);
+        }
+        /* make index of element tags */
+        osmTagsIndex = makeOSMTagsIndex(osmRawResp);
+
+        /* create a property tags for each object */
+        jstreeData.forEach(ele => {
+            ele["tags"] = osmTagsIndex[ele.id];
+        });
+        
+    }
+
+    /* form selection: tree/nodes */
+    if(dlStruct.id == "download-structure-tree"){
+        /* rebuild tree using added "_parent" key */
+        jstreeData = buildTree(jstreeData, "_parent");
+    }else if(dlStruct.id == "download-structure-nodes"){
+        jstreeData.forEach(x => delete x._parent);
+
+    }
+
+    let extension;
+    /* form format: json/xml */
+    if(dlFormat.id == "download-format-json"){
+        jstreeData = JSON.stringify(jstreeData, null, 2);
+        extension = "json";
+    }else if(dlFormat.id == "download-format-xml"){
+        jstreeData = mlib.json2xml(jstreeData, { compact: true, spaces: 4 });
+        extension = "xml";
+    }
+
+    // console.log(jstreeData);
 
     /* trigger anchor element to download */
-    // donwload(selectedStructure, 'selected_elements.json', 'application/json')
-
+    donwload(jstreeData, "add_selection." + extension, 'application/json')
 
 };
+
 
 /* Give each element an specific format */
 function formatNode(node){
 
-    return (({id, text, parent, children})=>({
+    return (({id, text, parent, children, children_all_selected})=>({
         id: id.replace("osm-rel-",""),
         name: text.replace(/\n/gi, "").trim(),
         parent: parent.replace("osm-rel-",""),
-        children: children.every(ele => typeof ele == "string")? children.map(id => id.replace("osm-rel-","")) : children
+        children: children.every(ele => typeof ele == "string")? children.map(id => id.replace("osm-rel-","")) : children,
+        children_all_selected: children_all_selected
         })
     )(node);
 }
 
 /* Use recursive function to filter only selected elements */
-function filterSelectedArray(selectedArray, parentId ="#"){
+function filterSelectedNodes(selectedArray, parentId ="#"){
 
     let filteredArray = [];
     let formattedElem;
     selectedArray.map(function(ele){
         if(ele.state.selected == true){
-            formattedElem = formatNode({...ele, parent: parentId, children: filterSelectedArray(ele.children, ele.id)});
+            formattedElem = formatNode({
+                ...ele,
+                parent: parentId,
+                children: ele.children.map(child => child.id.replace("osm-rel-","")),
+                children_all_selected: filterSelectedNodes(ele.children, ele.id)
+            });
             filteredArray.push(formattedElem);
         }else{
-            filteredArray = [...filteredArray, ...filterSelectedArray(ele.children, ele.id)];
+            filteredArray = [...filteredArray, ...filterSelectedNodes(ele.children, ele.id)];
         }
     });
 
     return filteredArray;
 }
 
-/* build tree: another way to get the json structure from flattened get_selected*/
-function buildTree(selected, parentId = "#"){
 
-    let tree = selected.filter(node => node.parent == parentId);
-    tree = tree.map(node => ({...node, children: buildTree(selected, node.id)}));
-    return tree;
-}
 
 /* handle the download with anchor element */
 function donwload(content, filename, contentType){

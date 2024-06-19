@@ -1,5 +1,5 @@
 /* get relation from OSM API */
-async function getRelation(relationID) {
+async function getRelation(relationID, out = "geom") {
     var endPoint = "https://overpass-api.de/api/interpreter";
 
     // to accept an array
@@ -8,7 +8,7 @@ async function getRelation(relationID) {
     let query = `
     [out:json][timeout:90];
     rel(id:${idsArray.join(",")});
-    out geom;
+    out ${out};
     `;
 
     let response = await fetch(endPoint, {method: "POST", body: ("data=" + encodeURIComponent(query))});
@@ -25,6 +25,16 @@ async function getRelation(relationID) {
     }
 
     return osmRes;
+}
+
+function makeOSMTagsIndex(osmRaw){
+
+    let tagsIndex = {};
+    osmRaw.elements.forEach(ele => {
+        tagsIndex[ele.id] = ele.tags;
+    });
+
+    return tagsIndex;
 }
 
 /* get result from nominatim search engine */
@@ -239,5 +249,44 @@ function showSlippyAlert(err){
     document.querySelector("#elementsDisplay div.alert").style.visibility = "visible";
 }
 
+/* build tree: another way to get the json structure from flattened get_selected*/
+function buildTree(nodes, key, parentId = "#"){
+    
+    let tree = nodes.filter(node => node[key] == parentId);
 
-export {getRelation, getNominatimSearch, addListElement, makeSlippyMap, makeOSMIdsSlippyMap, removeListElements};
+    tree = tree.map(node => {
+        let newNode = {...node, children: buildTree(nodes, key, node.id)};
+        delete newNode._parent;
+        return newNode;
+    });
+    return tree;
+}
+
+function flattenTree(tree, key, selecteParentID = "#"){
+    
+    const getIDs = function(list){
+        return list.map(ele => ele.id);
+    }
+
+    let flattened = [];
+
+    tree.forEach(node => {
+        flattened.push({...node, _parent: selecteParentID, [key]:getIDs(node[key])});
+        flattened = flattened.concat(flattenTree(node[key], key, node.id));
+    })
+
+    return flattened;
+}
+
+function traverseTree(tree, func, key){
+    if(tree == []) return [];
+
+    let appliedNode =  tree.map(node => {
+        traverseTree(node[key], func, key);
+        return func(node);
+    });
+
+    return appliedNode;
+}
+
+export {getRelation, makeOSMTagsIndex, getNominatimSearch, addListElement, makeSlippyMap, makeOSMIdsSlippyMap, removeListElements, flattenTree, buildTree};
