@@ -1,4 +1,4 @@
-import {getNominatimSearch, addListElement, makeOSMIdsSlippyMap, removeListElements, getRelation, makeOSMTagsIndex, flattenTree, buildTree} from './utils.js';
+import {getNominatimSearch, addListElement, makeOSMIdsSlippyMap, removeListElements, getRelation, makeOSMDataIndex, flattenTree, buildTree} from './utils.js';
 import './bundle.js';
 
 
@@ -234,15 +234,16 @@ async function popupMenuDownload(dlStruct, dlFormat, dlIncludeData){
             console.log(error);
         }
         /* make index of element tags */
-        osmTagsIndex = makeOSMTagsIndex(osmRawResp);
+        osmTagsIndex = makeOSMDataIndex(osmRawResp);
 
         /* create a property tags for each object */
         jstreeData.forEach(ele => {
-            ele["tags"] = osmTagsIndex[ele.id];
+            ele["tags"] = osmTagsIndex[ele.id].tags;
+            ele["bounds"] = osmTagsIndex[ele.id].bounds;
+            ele["members"] = osmTagsIndex[ele.id].members;
         });
         
     }
-
     /* form selection: tree/nodes */
     if(dlStruct.id == "download-structure-tree"){
         /* rebuild tree using added "_parent" key */

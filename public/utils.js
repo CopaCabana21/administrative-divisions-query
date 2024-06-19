@@ -27,11 +27,11 @@ async function getRelation(relationID, out = "geom") {
     return osmRes;
 }
 
-function makeOSMTagsIndex(osmRaw){
+function makeOSMDataIndex(osmRaw){
 
     let tagsIndex = {};
     osmRaw.elements.forEach(ele => {
-        tagsIndex[ele.id] = ele.tags;
+        tagsIndex[ele.id] = {bounds: ele.bounds, members: ele.members, tags: ele.tags};
     });
 
     return tagsIndex;
@@ -289,4 +289,4 @@ function traverseTree(tree, func, key){
     return appliedNode;
 }
 
-export {getRelation, makeOSMTagsIndex, getNominatimSearch, addListElement, makeSlippyMap, makeOSMIdsSlippyMap, removeListElements, flattenTree, buildTree};
+export {getRelation, makeOSMDataIndex, getNominatimSearch, addListElement, makeSlippyMap, makeOSMIdsSlippyMap, removeListElements, flattenTree, buildTree};
