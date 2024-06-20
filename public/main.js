@@ -211,6 +211,9 @@ async function popupMenuDownload(dlStruct, dlFormat, dlIncludeData){
 
     let jstreeData, addTagsTreeFetch, addTagsTree, osmRawResp, osmTagsIndex;
 
+    /* display busy icon */
+    document.getElementById("m-pop-download-busyIcon").style.visibility = "visible";
+
     /* 
     Use only json to conserve structure, get_selected() doesn't keep the selected parents
     */
@@ -231,6 +234,7 @@ async function popupMenuDownload(dlStruct, dlFormat, dlIncludeData){
             /* Check include osm-geometry was selected */
             osmRawResp = await getRelation(selectedIDs, (dlIncludeData.id == "download-include-data-osm-tags")? "tags" : "geom");
         }catch(error){
+            document.getElementById("m-pop-download-busyIcon").style.visibility = "hidden";
             console.log(error);
         }
         /* make index of element tags */
@@ -263,8 +267,8 @@ async function popupMenuDownload(dlStruct, dlFormat, dlIncludeData){
         extension = "xml";
     }
 
-    // console.log(jstreeData);
-
+    /* hide busy icon */
+    document.getElementById("m-pop-download-busyIcon").style.visibility = "hidden";
     /* trigger anchor element to download */
     donwload(jstreeData, "add_selection." + extension, 'application/json')
 
@@ -333,7 +337,7 @@ function handleSelectionDownload(event){
     let dlFormat = document.querySelector(".download-format input:checked");
     let dlIncludeData = document.querySelector(".download-include-data input:checked");
 
-    popupMenuDownload(dlStruct, dlFormat, dlIncludeData);   
+    popupMenuDownload(dlStruct, dlFormat, dlIncludeData);
 }
 
 /* -------------------------------------------------------------------------- */

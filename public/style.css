@@ -145,6 +145,23 @@ aside{
     justify-content: center;
 }
 
+
+#m-pop-download-footer{
+    display: inline-flex;
+    align-items: center;
+}
+
+#m-pop-download-busyIcon-container{
+    display: inline-block;
+    margin-left: 20px;
+}
+
+#m-pop-download-busyIcon{
+    color: var(--foreground-color);
+    font-size: 2em;
+    visibility: hidden;
+}
+
 .alert{
     position: absolute;
     top: 50%;
