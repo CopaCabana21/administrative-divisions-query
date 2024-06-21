@@ -60,8 +60,16 @@
                         <input type="radio" name="download-include-data" id="download-include-data-simple" checked>
                         <label for="download-include-data-osm-tags">osm tags</label>
                         <input type="radio" name="download-include-data" id="download-include-data-osm-tags">
-                        <label for="download-include-data-osm-geometry">osm geometry</label>
-                        <input type="radio" name="download-include-data" id="download-include-data-osm-geometry">
+                        <div id="osm-geom-geojson">
+                            <div>
+                                <label for="download-include-data-osm-geometry">osm tags and geometry</label>
+                                <input type="radio" name="download-include-data" id="download-include-data-osm-geometry">
+                            </div>
+                            <div id="geojson-geom-container">
+                                <label for="geojson-geom-checkbox">add geojson geometry</label>
+                                <input type="checkbox" name="geojson-geom-checkbox" id="geojson-geom-checkbox">
+                            </div>
+                        </div>
                     </div>
                     <hr>
                     <div id="m-pop-download-footer">

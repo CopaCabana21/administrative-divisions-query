@@ -352,7 +352,7 @@ input.addSelCheckbox{
     transform: translate(-50%, -50%);
     z-index: 3000;
 
-    width: 300px;
+    width: 320px;
     background-color: #f8f9fa;
     font-family: "Oswald", sans-serif !important;
     border-radius: 5px;
@@ -399,4 +399,20 @@ input.addSelCheckbox{
     height: 30px;
     font-size: 13px;
     padding: 0 5px 0 5px !important;
+}
+
+#osm-geom-geojson{
+    display: inline-flex;
+    flex-direction: column;
+}
+
+#geojson-geom-container{
+    font-size: 0.9em;
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.osm-geom-geojson-checked {
+    opacity: 1 !important;
+    pointer-events: auto !important;
 }

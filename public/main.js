@@ -209,10 +209,14 @@ $(".m-popup-background").on("click",function(){
 /* make download feature */
 async function popupMenuDownload(dlStruct, dlFormat, dlIncludeData){
 
-    let jstreeData, addTagsTreeFetch, addTagsTree, osmRawResp, osmTagsIndex;
+    let jstreeData, osmRawResp, osmTagsIndex;
 
-    /* display busy icon */
+    /* display busy icon and hidden previous error */
     document.getElementById("m-pop-download-busyIcon").style.visibility = "visible";
+    let errorMsg = document.getElementById("m-pop-download-error");
+    if(errorMsg){
+        document.getElementById("m-pop-download-footer").removeChild(errorMsg);
+    };
 
     /* 
     Use only json to conserve structure, get_selected() doesn't keep the selected parents
@@ -233,12 +237,21 @@ async function popupMenuDownload(dlStruct, dlFormat, dlIncludeData){
         try{
             /* Check include osm-geometry was selected */
             osmRawResp = await getRelation(selectedIDs, (dlIncludeData.id == "download-include-data-osm-tags")? "tags" : "geom");
+            /* filter: select only relation */
+
         }catch(error){
             document.getElementById("m-pop-download-busyIcon").style.visibility = "hidden";
+            errorMsg = document.createElement("span");
+            errorMsg.setAttribute("id", "m-pop-download-error")
+            errorMsg.innerText = "Error fetching data!";
+            errorMsg.style.color = "red";
+            document.getElementById("m-pop-download-footer").appendChild(errorMsg);
             console.log(error);
+            return;
         }
         /* make index of element tags */
         osmTagsIndex = makeOSMDataIndex(osmRawResp);
+
 
         /* create a property tags for each object */
         jstreeData.forEach(ele => {
@@ -247,7 +260,20 @@ async function popupMenuDownload(dlStruct, dlFormat, dlIncludeData){
             ele["members"] = osmTagsIndex[ele.id].members;
         });
         
+        /* convert to geojson and get geometry key */
+        if(dlIncludeData.id == "download-include-data-osm-geometry" && document.getElementById("geojson-geom-checkbox").checked){
+            
+            let geojsonGeom = osmtogeojson(osmRawResp).features.filter(ele => ele.id.includes("relation"));
+            let geojsonIndex = {};
+            geojsonGeom.forEach(ele => {
+                geojsonIndex[ele.id.replace('relation/','')] = ele.geometry;
+            })
+            jstreeData.forEach(ele => {
+                ele["geometry"] = geojsonIndex[ele.id];
+            });
+        }
     }
+
     /* form selection: tree/nodes */
     if(dlStruct.id == "download-structure-tree"){
         /* rebuild tree using added "_parent" key */
@@ -269,11 +295,26 @@ async function popupMenuDownload(dlStruct, dlFormat, dlIncludeData){
 
     /* hide busy icon */
     document.getElementById("m-pop-download-busyIcon").style.visibility = "hidden";
+
+
     /* trigger anchor element to download */
     donwload(jstreeData, "add_selection." + extension, 'application/json')
 
 };
 
+// document.getElementById("download-include-data-osm-geometry").addEventListener("change", function(){
+//     document.getElementById("geojson-geom-container").classList.toggle("osm-geom-geojson-checked");
+// })
+
+document.querySelectorAll("input[name='download-include-data']").forEach(function(elem){
+    elem.addEventListener("change",function(){
+        let temp = document.getElementById("download-include-data-osm-geometry");
+        document.getElementById("geojson-geom-container").classList.toggle("osm-geom-geojson-checked", temp.checked);
+        if(!temp.checked){
+            document.getElementById("geojson-geom-checkbox").checked = false;
+        }
+    })
+})
 
 /* Give each element an specific format */
 function formatNode(node){
