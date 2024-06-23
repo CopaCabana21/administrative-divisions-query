@@ -17,13 +17,12 @@ async function getRelation(relationID, out = "geom") {
         /* a not ok response doesn't throw an error, so throw one and add the response object */
         throw new Error("Fetch response was not ok", {cause: response});
     }
-
     let osmRes = await response.json();
 
     if(osmRes.elements.length === 0){
         throw new Error("Fetch response has empty elements");
     }
-
+    console.log(osmRes);
     return osmRes;
 }
 
@@ -152,7 +151,8 @@ function featureTooltip(feature, layer, map){
 function makeSlippyMap(osmData, map){
 
     /* once we have the relation (promise resolved), convert to geojson  */
-    var geojsonData = osmtogeojson(osmData);
+    /* Use a deep copy */
+    var geojsonData = osmtogeojson(JSON.parse(JSON.stringify(osmData)));
     /* and make the layer */
     var geojsonLayer = L.geoJSON(geojsonData, {
         filter: function(feature, layer){

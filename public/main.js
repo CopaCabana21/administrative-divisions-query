@@ -237,8 +237,6 @@ async function popupMenuDownload(dlStruct, dlFormat, dlIncludeData){
         try{
             /* Check include osm-geometry was selected */
             osmRawResp = await getRelation(selectedIDs, (dlIncludeData.id == "download-include-data-osm-tags")? "tags" : "geom");
-            /* filter: select only relation */
-
         }catch(error){
             document.getElementById("m-pop-download-busyIcon").style.visibility = "hidden";
             errorMsg = document.createElement("span");
@@ -252,18 +250,17 @@ async function popupMenuDownload(dlStruct, dlFormat, dlIncludeData){
         /* make index of element tags */
         osmTagsIndex = makeOSMDataIndex(osmRawResp);
 
-
         /* create a property tags for each object */
         jstreeData.forEach(ele => {
             ele["tags"] = osmTagsIndex[ele.id].tags;
             ele["bounds"] = osmTagsIndex[ele.id].bounds;
             ele["members"] = osmTagsIndex[ele.id].members;
         });
-        
         /* convert to geojson and get geometry key */
         if(dlIncludeData.id == "download-include-data-osm-geometry" && document.getElementById("geojson-geom-checkbox").checked){
-            
-            let geojsonGeom = osmtogeojson(osmRawResp).features.filter(ele => ele.id.includes("relation"));
+            /* filter: select only relation */
+            /* osmtogeojson modifies the original object, seems to be an issue with the paclet. Use a deep copy instead */
+            let geojsonGeom = osmtogeojson(JSON.parse(JSON.stringify(osmRawResp))).features.filter(ele => ele.id.includes("relation"));
             let geojsonIndex = {};
             geojsonGeom.forEach(ele => {
                 geojsonIndex[ele.id.replace('relation/','')] = ele.geometry;
@@ -273,7 +270,7 @@ async function popupMenuDownload(dlStruct, dlFormat, dlIncludeData){
             });
         }
     }
-
+    
     /* form selection: tree/nodes */
     if(dlStruct.id == "download-structure-tree"){
         /* rebuild tree using added "_parent" key */
