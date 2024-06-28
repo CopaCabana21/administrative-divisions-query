@@ -151,8 +151,16 @@ $("#addSelectionTree").jstree({
     }
 });
 
-$("#addSelectionFilter").on("input", function(){
-    $("#addSelectionTree").jstree(true).search($(this).val());
+
+/* the search on input change was too slow, changed to search on enter */
+$("#addSelectionFilter").on("keypress input", function(event){
+    if (event.which == 13) {
+        $("#addSelectionTree").jstree(true).search($(this).val());
+    }
+
+    if (event.type === 'input' && $(this).val() === '') {
+        $("#addSelectionTree").jstree(true).search('');
+    }
 });
 
 $("#addSelectionReset").on("click", function(){
