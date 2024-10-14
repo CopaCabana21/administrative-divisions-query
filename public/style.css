@@ -237,16 +237,20 @@ tr{
     }
 }
 
-aside > section > button::before{
+.arrowHead::before{
     width: 1.25em;
     display: inline-block;
     margin-right: 5px;
     content: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='rgba%280,0,0,.5%29' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5 14l6-6-6-6'/%3e%3c/svg%3e");
-    transition: transform 0.5s ease;
+    transition: transform 0.4s ease;
     transform-origin: 25% 50%;
 }
 
-aside > section > button[aria-expanded="true"]::before {
+.arrowHead[aria-expanded="true"]::before {
+    transform: rotate(90deg);
+}
+
+.arrowHead.expanded::before {
     transform: rotate(90deg);
 }
 
@@ -262,10 +266,9 @@ aside > section > button {
     padding-left: 15px;
 }
 
-/* #addSelection > ul{
-    background-color: #f8f9fadd;
-} */
 
+
+/* old arrow for dropdown */
 .arrow::before {
     border: solid black;
     border-width: 3px 3px 0 0;
@@ -343,6 +346,13 @@ input.addSelCheckbox{
 }
 
 .leaflet-popup-close-button{
+    display: none;
+}
+/* -------------------------------------------------------------------------- */
+
+/* custom stylings for leaflet----------------------------------------------- */
+
+.hide{
     display: none;
 }
 /* -------------------------------------------------------------------------- */
@@ -437,3 +447,15 @@ input.addSelCheckbox{
     opacity: 1 !important;
     pointer-events: auto !important;
 }
+
+/* relation info tables------------------------------------------------------ */
+.tagTable-cont{
+    width: fit-content;
+    min-width: 400px;
+    max-width: 650px;
+}
+
+.rel-info-container h4{
+    cursor: pointer;
+}
+/* -------------------------------------------------------------------------- */

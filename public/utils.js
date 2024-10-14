@@ -210,12 +210,13 @@ function makeSlippyMap(osmData, map){
 
 /* Make table of tags  */
 function makeOSMTagTableElement(elemName, osmTags){
-    const newElement = document.createElement("div");
-    // container for tag table
-    newElement.setAttribute("class", "mx-1 my-3 border border-secondary-subtle rounded overflow-hidden border w-75 bg-dark");
-    newElement.setAttribute("id", "tagTableWrapper");
 
-    // make elements
+    /* table from OSM */
+    const osmTable = document.createElement("div");
+    // container for tag table
+    osmTable.setAttribute("class", "tagTable-cont mx-1 my-3 border border-secondary-subtle rounded overflow-hidden bg-dark");
+
+    // make table elements
     let trElements = ``;
     for( const [key, val] of Object.entries(osmTags)){
         trElements += `<tr>
@@ -225,12 +226,27 @@ function makeOSMTagTableElement(elemName, osmTags){
     }
 
     // use title from nominatim
-    let title =`<h4 class="mx-2 my-1 text-light">${elemName}</h4>`;
-    let tableInnerHTML = title + `<table class="mb-0 table"><tbody>` + trElements + `</tbody></table>`;
-    newElement.innerHTML = tableInnerHTML;
+    let elemSourceTitle =`<h5 class="mx-2 my-1 text-light">OSM tags</h5>`;
+    let tableInnerHTML = elemSourceTitle + `<table class="mb-0 table"><tbody>` + trElements + `</tbody></table>`;
+    osmTable.innerHTML = tableInnerHTML;
 
-    removeListElements();
-    document.getElementById("relations-info").appendChild(newElement);
+
+    /* relation container */
+    // make container and title
+    const relInfoCont = document.createElement("div");
+    relInfoCont.setAttribute("class", "rel-info-container my-4");
+
+    const relInfoContTitle = `<h4 class="mx-2 my-1 text-dark border-bottom border-dark arrowHead expanded">${elemName}</h4>`
+    relInfoCont.innerHTML = relInfoContTitle;
+    relInfoCont.appendChild(osmTable)
+
+    relInfoCont.querySelector("h4").addEventListener("click", function(){
+        relInfoCont.querySelector(osmTable.classList.toggle("hide"));
+        relInfoCont.querySelector("h4").classList.toggle("expanded");
+    });
+
+    // removeListElements();
+    document.getElementById("relations-info").appendChild(relInfoCont);
 }
 
 
