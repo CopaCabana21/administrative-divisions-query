@@ -1,4 +1,4 @@
-import {getNominatimSearch, addListElement, makeOSMIdsSlippyMap, removeListElements, getRelation, makeOSMDataIndex, flattenTree, buildTree} from './utils.js';
+import {getNominatimSearch, addListElement, removeListElements, getRelation, makeOSMDataIndex, flattenTree, buildTree, showSlippyAlert, makeSlippyMap, makeOSMTagTableElement} from './utils.js';
 import './bundle.js';
 
 
@@ -168,14 +168,39 @@ $("#addSelectionReset").on("click", function(){
     $("#addSelectionTree").jstree(true).deselect_all();
 })
 
-
+/* plot selected leaves */
 $("#addSelectionPlot").on("click", function(e){
-    let selected = $("#addSelectionTree").jstree(true).get_selected();
-    selected.forEach((ele, index, arr)=>{
+    // get selected leaves
+    let selectedOSMIds = $("#addSelectionTree").jstree(true).get_selected();
+    selectedOSMIds.forEach((ele, index, arr)=>{
         arr[index] = ele.replace("osm-rel-","");
     });
-    /* plot slippy map for selected relations */
-    makeOSMIdsSlippyMap(selected, map);
+
+    // hide alerts
+    document.querySelector("#elementsDisplay div.alert").style.visibility = "hidden";
+    // show busy icon
+    document.getElementById("busyIcon").style.visibility = "visible";
+    // clean previous selected elements info
+    document.getElementById("relations-info").innerHTML = "";
+
+    // plot slippy map for selected relations
+    getRelation(selectedOSMIds)
+        .then(osmData => {
+            // add slippy map
+            makeSlippyMap(osmData, map);
+            // add tags table
+            osmData.elements.forEach(ele => {
+                makeOSMTagTableElement(ele.tags.name, ele.tags);
+            });
+        })
+        .catch(err => {
+            /* show alert */
+            showSlippyAlert(err);
+        });
+
+
+
+    
 })
 
 

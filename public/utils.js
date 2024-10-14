@@ -98,7 +98,6 @@ function addListElement(element, map){
     newElement.addEventListener("click", function(eve){
         // show busy icon
         document.getElementById("busyIcon").style.visibility = "visible";
-
         getRelation(element.osm_id)
             .then(x => {
                 // hide busy icon
@@ -106,13 +105,13 @@ function addListElement(element, map){
                 // resolved promise with the value x
                 return x;
             })
-            .then(x => {
+            .then(data => {
                 // remove previous results info
                 removeRelationsInfo();
                 // add slippy map
-                makeSlippyMap(x, map);
+                makeSlippyMap(data, map);
                 // add tag table
-                makeOSMTagTableElement(element.display_name, x.elements[0].tags);
+                makeOSMTagTableElement(data.display_name, data.elements[0].tags);
             })
             .catch(err => {
                 // hide busy icon
@@ -214,7 +213,7 @@ function makeOSMTagTableElement(elemName, osmTags){
     /* table from OSM */
     const osmTable = document.createElement("div");
     // container for tag table
-    osmTable.setAttribute("class", "tagTable-cont mx-1 my-3 border border-secondary-subtle rounded overflow-hidden bg-dark");
+    osmTable.setAttribute("class", "tagTable-cont mx-1 my-3 border border-secondary-subtle rounded overflow-hidden bg-dark hide");
 
     // make table elements
     let trElements = ``;
@@ -236,7 +235,7 @@ function makeOSMTagTableElement(elemName, osmTags){
     const relInfoCont = document.createElement("div");
     relInfoCont.setAttribute("class", "rel-info-container my-4");
 
-    const relInfoContTitle = `<h4 class="mx-2 my-1 text-dark border-bottom border-dark arrowHead expanded">${elemName}</h4>`
+    const relInfoContTitle = `<h4 class="mx-2 my-1 text-dark border-bottom border-dark arrowHead">${elemName}</h4>`
     relInfoCont.innerHTML = relInfoContTitle;
     relInfoCont.appendChild(osmTable)
 
@@ -250,21 +249,6 @@ function makeOSMTagTableElement(elemName, osmTags){
 }
 
 
-function makeOSMIdsSlippyMap(OSMIds, map){
-    /* hide alerts */
-    document.querySelector("#elementsDisplay div.alert").style.visibility = "hidden";
-    /* show busy icon */
-    document.getElementById("busyIcon").style.visibility = "visible";
-
-    getRelation(OSMIds)
-        .then(osmData => {
-            makeSlippyMap(osmData, map);
-        })
-        .catch(err => {
-            /* show alert */
-            showSlippyAlert(err);
-        });
-}
 
 function showSlippyAlert(err){
 
@@ -321,4 +305,4 @@ function traverseTree(tree, func, key){
     return appliedNode;
 }
 
-export {getRelation, makeOSMDataIndex, getNominatimSearch, addListElement, makeSlippyMap, makeOSMIdsSlippyMap, removeListElements, flattenTree, buildTree};
+export {getRelation, makeOSMDataIndex, getNominatimSearch, addListElement, makeSlippyMap, removeListElements, flattenTree, buildTree, showSlippyAlert, makeOSMTagTableElement};
