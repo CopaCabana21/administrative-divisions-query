@@ -198,7 +198,7 @@ function makeSlippyMap(osmData, map){
 
 function makeOSMTagTableElement(osmTags){
     const newElement = document.createElement("div");
-    newElement.setAttribute("class", "mx-1 mb-3 border border-secondary-subtle rounded overflow-hidden border");
+    newElement.setAttribute("class", "mx-1 my-3 border border-secondary-subtle rounded overflow-hidden border w-75");
     newElement.setAttribute("id", "tagTableWrapper");
 
     let trElements = ``;
@@ -213,7 +213,7 @@ function makeOSMTagTableElement(osmTags){
     newElement.innerHTML = tableInnerHTML;
 
     removeListElements();
-    document.getElementById("listSelector").appendChild(newElement);
+    document.getElementById("relations-info").appendChild(newElement);
 
     // document.getElementById('tagTableWrapper').insertAdjacentHTML("beforeend", tableInnerHTML);
 }
