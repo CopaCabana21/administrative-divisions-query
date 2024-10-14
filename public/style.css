@@ -176,6 +176,10 @@ aside{
     color: black;
 }
 
+#footerContainer a{
+    text-decoration: inherit;
+    color: inherit;
+}
 
 tr{
     font-size: 14px;
