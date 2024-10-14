@@ -321,21 +321,10 @@ input.addSelCheckbox{
     font-size: 0.8rem;
 }
 
-
-#select-add{
-    /* display: grid;
-    grid-template-rows: auto 1fr; */
-    /* overflow: hidden; */
-}
-
 #add-selection-grid{
     height: 100%;
     /* display: grid;
     grid-template-rows: auto auto 1fr; */
-}
-
-#addSelection{
-    /* overflow: hidden; */
 }
 
 /* -------------------------------------------------------------------------- */
