@@ -94,32 +94,39 @@ function addListElement(element, map){
     /* add element */
     document.getElementById('listSelector').appendChild(newElement);
 
-    /* add event to element */
+    /* add events to list element results */
     newElement.addEventListener("click", function(eve){
-        /* show busy icon */
+        // show busy icon
         document.getElementById("busyIcon").style.visibility = "visible";
 
         getRelation(element.osm_id)
             .then(x => {
-                /* hide busy icon */
+                // hide busy icon
                 document.getElementById("busyIcon").style.visibility = "hidden";
                 // resolved promise with the value x
                 return x;
             })
             .then(x => {
+                // remove previous results info
+                removeRelationsInfo();
+                // add slippy map
                 makeSlippyMap(x, map);
+                // add tag table
                 makeOSMTagTableElement(element.display_name, x.elements[0].tags);
             })
             .catch(err => {
-                /* hide busy icon */
+                // hide busy icon
                 document.getElementById("busyIcon").style.visibility = "hidden";
-                /* show alert */
+                // show alert
                 showSlippyAlert(err);
             });
     });
 }
 
+/* remove results from search */
 function removeListElements(){
+
+    // remove elements from list selector
     let parent = document.getElementById("listSelector");
 
     [...parent.children].forEach(ele => {
@@ -130,6 +137,11 @@ function removeListElements(){
     });
 }
 
+/* remove tables and other info of elements */
+function removeRelationsInfo(){
+    // remove relations info
+    document.getElementById("relations-info").innerHTML = "";
+}
 
 
 /* tooltip function */
