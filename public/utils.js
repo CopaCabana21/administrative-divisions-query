@@ -135,15 +135,16 @@ function removeListElements(){
 /* tooltip function */
 function featureTooltip(feature, layer, map){
 
-    let tooltip = layer.bindPopup(
-        `<a class="custom-bindPopup" href="https://www.openstreetmap.org/relation/${feature.properties.id.replace("relation/","")}"> ${feature.properties.name} (${feature.properties.id.replace("relation/","")})</a>`,
-        {
-            autoPan: false
-        }
+    let tooltip = layer.bindTooltip(
+        `<span 
+            class="custom-bindPopup" 
+            href="https://www.openstreetmap.org/relation/${feature.properties.id.replace("relation/","")}">
+             ${feature.properties.name} (${feature.properties.id.replace("relation/","")})
+        </span>`
     );
 
     tooltip.on('mouseover', function (e) {
-        this.openPopup();
+        this.openTooltip();
     });
 
 
