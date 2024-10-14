@@ -108,7 +108,7 @@ function addListElement(element, map){
             })
             .then(x => {
                 makeSlippyMap(x, map);
-                makeOSMTagTableElement(x.elements[0].tags);
+                makeOSMTagTableElement(element.display_name, x.elements[0].tags);
             })
             .catch(err => {
                 /* hide busy icon */
@@ -196,12 +196,14 @@ function makeSlippyMap(osmData, map){
 
 }
 
-
-function makeOSMTagTableElement(osmTags){
+/* Make table of tags  */
+function makeOSMTagTableElement(elemName, osmTags){
     const newElement = document.createElement("div");
-    newElement.setAttribute("class", "mx-1 my-3 border border-secondary-subtle rounded overflow-hidden border w-75");
+    // container for tag table
+    newElement.setAttribute("class", "mx-1 my-3 border border-secondary-subtle rounded overflow-hidden border w-75 bg-dark");
     newElement.setAttribute("id", "tagTableWrapper");
 
+    // make elements
     let trElements = ``;
     for( const [key, val] of Object.entries(osmTags)){
         trElements += `<tr>
@@ -210,13 +212,13 @@ function makeOSMTagTableElement(osmTags){
         </tr>`
     }
 
-    let tableInnerHTML = `<table class="mb-0 table"><tbody>` + trElements + `</tbody></table>`;
+    // use title from nominatim
+    let title =`<h4 class="mx-2 my-1 text-light">${elemName}</h4>`;
+    let tableInnerHTML = title + `<table class="mb-0 table"><tbody>` + trElements + `</tbody></table>`;
     newElement.innerHTML = tableInnerHTML;
 
     removeListElements();
     document.getElementById("relations-info").appendChild(newElement);
-
-    // document.getElementById('tagTableWrapper').insertAdjacentHTML("beforeend", tableInnerHTML);
 }
 
 
