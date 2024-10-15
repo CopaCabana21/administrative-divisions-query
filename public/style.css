@@ -20,6 +20,8 @@ body{
 
     min-width: 325px;
     position: relative;
+
+    overflow-anchor: none;
 }
 
 
@@ -448,3 +450,4 @@ input.addSelCheckbox{
     cursor: pointer;
 }
 /* -------------------------------------------------------------------------- */
+
