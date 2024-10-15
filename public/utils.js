@@ -207,6 +207,56 @@ function makeSlippyMap(osmData, map){
 
 }
 
+function makeBootstrapTable(obj){
+
+    // use table from bootstrap
+    const table = document.createElement("table");
+    table.setAttribute("class", "mb-0 table");
+
+    let trElements = ``;
+    for( const [key, val] of Object.entries(obj)){
+        // key.match(/^name.+$/)
+        if(false){
+            // for "name" key types, group the values
+
+        }else{
+            // common key value items
+            trElements += `<tr>
+                <th class="border-secondary-subtle table-secondary" dir="auto">${key}</th>
+                <td class="border-secondary-subtle border-start text-break" dir="ltr">${val}</td>
+            </tr>`
+        }
+    }
+
+    table.innerHTML = `<tbody>` + trElements + `</tbody>`;
+
+    return table;
+}
+
+
+function addOSMSubTable(mainTable, key, subTable){
+    const regexPatt = new RegExp(`^${key}$`);
+    // select table item
+    let valueElem = [...mainTable.querySelectorAll("tr th")].find(ele => ele.textContent.match(regexPatt));
+    // select td element that has the value
+    valueElem = valueElem.nextElementSibling;
+    // "other" text to expand
+    const otherElem = `<span style="font-size: 10px; cursor: pointer; color:grey; white-space: pre;">  (more)</span>`
+    // add content to table
+    valueElem.innerHTML = `${valueElem.textContent} ${otherElem}`;
+    valueElem.appendChild(subTable);
+    // add event to "more" text
+    valueElem.querySelector("span").addEventListener('click', function(){
+        subTable.classList.toggle("hide");
+    });
+    // custom styles
+    valueElem.querySelector("table").classList.add("mt-3");
+    // hide sub table
+    subTable.classList.add("hide");
+
+    return valueElem;
+}   
+
 /* Make table of tags  */
 function makeOSMTagTableElement(elemName, osmTags){
 
@@ -215,36 +265,48 @@ function makeOSMTagTableElement(elemName, osmTags){
     // container for tag table
     osmTable.setAttribute("class", "tagTable-cont mx-1 my-3 border border-secondary-subtle rounded overflow-hidden bg-dark hide");
 
-    // make table elements
-    let trElements = ``;
-    for( const [key, val] of Object.entries(osmTags)){
-        trElements += `<tr>
-            <th class="border-secondary-subtle table-secondary" dir="auto">${key}</th>
-            <td class="border-secondary-subtle border-start text-break" dir="ltr">${val}</td>
-        </tr>`
-    }
+    // filter all variants of name tags
+    const keyToMakeSubTables = ["name", "official_name"];
+    //* let nameKeys = Object.keys(osmTags).filter(key => key.match(/^name.+$/));
+    let osmTagsFiltered = osmTags;
+    keyToMakeSubTables.forEach((key) => {
+        const regexPatt = new RegExp(`^${key}.+$`);
+        osmTagsFiltered = Object.fromEntries(Object.entries(osmTagsFiltered).filter(([key]) => !key.match(regexPatt)))
+    });
 
-    // use title from nominatim
-    let elemSourceTitle =`<h5 class="mx-2 my-1 text-light">OSM tags</h5>`;
-    let tableInnerHTML = elemSourceTitle + `<table class="mb-0 table"><tbody>` + trElements + `</tbody></table>`;
-    osmTable.innerHTML = tableInnerHTML;
-
-
+    /* add bootstrap table */
+    // add title
+    osmTable.innerHTML = `<h5 class="mx-2 my-1 text-light">OSM tags</h5>`;
+    // add bootstrap table
+    osmTable.appendChild(makeBootstrapTable(osmTagsFiltered));
+    
     /* relation container */
     // make container and title
     const relInfoCont = document.createElement("div");
     relInfoCont.setAttribute("class", "rel-info-container my-4");
-
+    // add title
     const relInfoContTitle = `<h4 class="mx-2 my-1 text-dark border-bottom border-dark arrowHead">${elemName}</h4>`
     relInfoCont.innerHTML = relInfoContTitle;
+    // add osm tag table
     relInfoCont.appendChild(osmTable)
 
+    /* make sub tables */
+    keyToMakeSubTables.forEach(key => {
+        const regexPatt = new RegExp(`^${key}.+$`);
+        const matchedKeys = Object.fromEntries(Object.entries(osmTags).filter(([key]) => key.match(regexPatt)));
+        if(matchedKeys){
+            let osmSubTable = makeBootstrapTable(matchedKeys);
+            addOSMSubTable(osmTable, key, osmSubTable);
+        }
+    })
+
+    // dropdown on title
     relInfoCont.querySelector("h4").addEventListener("click", function(){
         relInfoCont.querySelector(osmTable.classList.toggle("hide"));
         relInfoCont.querySelector("h4").classList.toggle("expanded");
     });
 
-    // removeListElements();
+    // add to main container
     document.getElementById("relations-info").appendChild(relInfoCont);
 }
 
