@@ -111,7 +111,7 @@ function addListElement(element, map){
                 // add slippy map
                 makeSlippyMap(data, map);
                 // add tag table
-                makeOSMTagTableElement(data.display_name, data.elements[0].tags);
+                makeOSMTagTableElement(element.display_name, data.elements[0].tags);
             })
             .catch(err => {
                 // hide busy icon
@@ -293,9 +293,9 @@ function makeOSMTagTableElement(elemName, osmTags){
     /* make sub tables */
     keyToMakeSubTables.forEach(key => {
         const regexPatt = new RegExp(`^${key}.+$`);
-        const matchedKeys = Object.fromEntries(Object.entries(osmTags).filter(([key]) => key.match(regexPatt)));
-        if(matchedKeys){
-            let osmSubTable = makeBootstrapTable(matchedKeys);
+        const matchedKeys = Object.entries(osmTags).filter(([key]) => key.match(regexPatt));
+        if(matchedKeys.length){
+            let osmSubTable = makeBootstrapTable(Object.fromEntries(matchedKeys));
             addOSMSubTable(osmTable, key, osmSubTable);
         }
     })
