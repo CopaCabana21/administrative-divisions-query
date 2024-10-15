@@ -1,4 +1,8 @@
-import {getNominatimSearch, addListElement, removeListElements, getRelation, makeOSMDataIndex, flattenTree, buildTree, showSlippyAlert, makeSlippyMap, makeOSMTagTableElement} from './utils.js';
+import {
+    getNominatimSearch, addListElement, removeListElements, getRelation, 
+    makeOSMDataIndex, flattenTree, buildTree, showSlippyAlert, makeSlippyMap, 
+    makeOSMTagTableElement
+} from './utils.js';
 import './bundle.js';
 
 
@@ -197,10 +201,6 @@ $("#addSelectionPlot").on("click", function(e){
             /* show alert */
             showSlippyAlert(err);
         });
-
-
-
-    
 })
 
 
