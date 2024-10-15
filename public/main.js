@@ -414,8 +414,8 @@ function handleSelectionDownload(event){
 /* -------------------------------------------------------------------------- */
 
 
-document.querySelectorAll("[data-bs-toggle]").forEach(ele => {
-    if(!ele.classList.contains("arrowHead")){
-        ele.classList.add("arrowHead");
-    }
-})
+// document.querySelectorAll("[data-bs-toggle]").forEach(ele => {
+//     if(!ele.classList.contains("arrowHead")){
+//         ele.classList.add("arrowHead");
+//     }
+// })
