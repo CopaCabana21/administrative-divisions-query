@@ -346,6 +346,13 @@ input.addSelCheckbox{
 .hide{
     display: none;
 }
+
+
+path.leaflet-interactive:focus{
+    /* chrome adds black outline */
+    outline: none;
+}
+
 /* -------------------------------------------------------------------------- */
 
 /* -------------------------------------------------------------------------- */

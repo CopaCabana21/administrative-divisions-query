@@ -143,10 +143,31 @@ function removeRelationsInfo(){
 }
 
 
-/* tooltip function */
-function featureTooltip(feature, layer, map){
+var geojsonLayer;
+let highlightedLayer = null;
 
-    let tooltip = layer.bindTooltip(
+function highlightFeature(event){
+
+    let layer = event.target;
+
+    if (highlightedLayer) {
+        geojsonLayer.resetStyle(highlightedLayer);
+    }
+    
+    layer.setStyle({
+        color: "red"
+    });
+
+    layer.bringToFront();
+
+    highlightedLayer = layer;
+}
+
+
+/* tooltip function */
+function onEachFuture(feature, layer){
+
+    layer.bindTooltip(
         `<span 
             class="custom-bindPopup" 
             href="https://www.openstreetmap.org/relation/${feature.properties.id.replace("relation/","")}">
@@ -154,10 +175,14 @@ function featureTooltip(feature, layer, map){
         </span>`
     );
 
-    tooltip.on('mouseover', function (e) {
-        this.openTooltip();
+    layer.on({
+        // e is the event and this is the layer
+        // the layer created with each applied feature
+        'mouseover' : function (e) {
+            this.openTooltip();
+        },
+        "click" : highlightFeature
     });
-
 
 }
 
@@ -167,12 +192,12 @@ function makeSlippyMap(osmData, map){
     /* Use a deep copy */
     var geojsonData = osmtogeojson(JSON.parse(JSON.stringify(osmData)));
     /* and make the layer */
-    var geojsonLayer = L.geoJSON(geojsonData, {
+    geojsonLayer = L.geoJSON(geojsonData, {
         filter: function(feature, layer){
             return !(feature.id.includes('node'));
         },
         /* add tooltip */
-        onEachFeature: featureTooltip
+        onEachFeature: onEachFuture,
     });
 
 
