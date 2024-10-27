@@ -146,6 +146,11 @@ $("#addSelectionFilter").on("keypress input", function(event){
 $("#addSelectionReset").on("click", function(){
     // $("#addSelectionFilter").val("").trigger("change").focus();
     $("#addSelectionTree").jstree(true).deselect_all();
+
+    // clear filter of nodes
+    $("#addSelectionTree").jstree(true).search('');
+    // clear filter input value
+    $("#addSelectionFilter").val('');
 })
 
 /* plot selected leaves */
