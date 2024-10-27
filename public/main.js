@@ -103,6 +103,7 @@ $("#addSelectionTree").jstree({
         "show_only_matches": true
     },
     "contextmenu":{
+        "select_node": false,
         "items": function(node){
             return {
                 "immediateChilds": {
