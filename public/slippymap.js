@@ -69,14 +69,6 @@ function makeSlippyMap(osmData, map){
         onEachFeature: onEachFuture,
     });
 
-
-    
-    //! /*
-    //! this was a check using the variable, which was global scope of utils.js.
-    //! Instead i'm using the window object to attach the property, lol
-    //! */
-    //! if(map != undefined) map.remove();
-
     /* remove previous layers */
     map.eachLayer(function (layer) {
         map.removeLayer(layer);
