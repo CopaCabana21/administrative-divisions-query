@@ -307,7 +307,6 @@ input.addSelCheckbox{
     padding-top: 5px;
     padding-bottom: 5px;
     border-top: 1px solid black;
-    overflow-y: hidden;
 }
 
 #addSelectionTools button{
