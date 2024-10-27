@@ -1,3 +1,6 @@
+import {showSlippyAlert, makeSlippyMap} from "./slippymap.js";
+
+
 /* get relation from OSM API */
 async function getRelation(relationID, out = "geom") {
     var endPoint = "https://overpass-api.de/api/interpreter";
@@ -143,94 +146,6 @@ function removeRelationsInfo(){
 }
 
 
-var geojsonLayer;
-let highlightedLayer = null;
-
-function highlightFeature(event){
-
-    let layer = event.target;
-
-    if (highlightedLayer) {
-        geojsonLayer.resetStyle(highlightedLayer);
-    }
-    
-    layer.setStyle({
-        color: "red"
-    });
-
-    layer.bringToFront();
-
-    highlightedLayer = layer;
-}
-
-
-/* tooltip function */
-function onEachFuture(feature, layer){
-
-    layer.bindTooltip(
-        `<span 
-            class="custom-bindPopup" 
-            href="https://www.openstreetmap.org/relation/${feature.properties.id.replace("relation/","")}">
-             ${feature.properties.name} (${feature.properties.id.replace("relation/","")})
-        </span>`
-    );
-
-    layer.on({
-        // e is the event and this is the layer
-        // the layer created with each applied feature
-        'mouseover' : function (e) {
-            this.openTooltip();
-        },
-        "click" : highlightFeature
-    });
-
-}
-
-function makeSlippyMap(osmData, map){
-
-    /* once we have the relation (promise resolved), convert to geojson  */
-    /* Use a deep copy */
-    var geojsonData = osmtogeojson(JSON.parse(JSON.stringify(osmData)));
-    /* and make the layer */
-    geojsonLayer = L.geoJSON(geojsonData, {
-        filter: function(feature, layer){
-            return !(feature.id.includes('node'));
-        },
-        /* add tooltip */
-        onEachFeature: onEachFuture,
-    });
-
-
-    
-    //! /*
-    //! this was a check using the variable, which was global scope of utils.js.
-    //! Instead i'm using the window object to attach the property, lol
-    //! */
-    //! if(map != undefined) map.remove();
-
-    /* remove previous layers */
-    map.eachLayer(function (layer) {
-        map.removeLayer(layer);
-    });
-
-    /* fit bounds to new layer */
-    map.fitBounds(geojsonLayer.getBounds());
-    
-    /* make tiles layer */
-    var layer = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 15,
-        /* osm copyright */
-        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-    });
-
-    /* hide busy icon */
-    document.getElementById("busyIcon").style.visibility = "hidden";
-
-    /* add all layers */
-    layer.addTo(map);
-    geojsonLayer.addTo(map);
-
-}
 
 function makeBootstrapTable(obj){
 
@@ -337,20 +252,7 @@ function makeOSMTagTableElement(elemName, osmTags){
 
 
 
-function showSlippyAlert(err){
 
-    /* hide busy icon */
-    document.getElementById("busyIcon").style.visibility = "hidden";  
-
-    if(err.cause){
-        document.querySelector("#elementsDisplay div.alert p").textContent =`${err.message}:\n ${err.cause.status} - ${err.cause.statusText}`;
-    }else{
-        document.querySelector("#elementsDisplay div.alert p").textContent = `${err.message}`;
-    };
-
-    /* display alert */
-    document.querySelector("#elementsDisplay div.alert").style.visibility = "visible";
-}
 
 /* build tree: another way to get the json structure from flattened get_selected*/
 function buildTree(nodes, key, parentId = "#"){
@@ -392,4 +294,4 @@ function traverseTree(tree, func, key){
     return appliedNode;
 }
 
-export {getRelation, makeOSMDataIndex, getNominatimSearch, addListElement, makeSlippyMap, removeListElements, flattenTree, buildTree, showSlippyAlert, makeOSMTagTableElement};
+export {getRelation, makeOSMDataIndex, getNominatimSearch, addListElement, removeListElements, flattenTree, buildTree, makeOSMTagTableElement};

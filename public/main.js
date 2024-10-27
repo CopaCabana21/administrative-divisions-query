@@ -1,8 +1,9 @@
 import {
     getNominatimSearch, addListElement, removeListElements, getRelation, 
-    makeOSMDataIndex, flattenTree, buildTree, showSlippyAlert, makeSlippyMap, 
+    makeOSMDataIndex, flattenTree, buildTree,  
     makeOSMTagTableElement
 } from './utils.js';
+import {showSlippyAlert, makeSlippyMap} from "./slippymap.js";
 import './bundle.js';
 
 
