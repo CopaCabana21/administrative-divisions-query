@@ -97,7 +97,7 @@ $("#addSelectionTree").jstree({
     "checkbox": {
         "three_state": false,
         // "cascade": "down",
-        "whole_node": false,
+        "whole_node": true
     },
     "search": {
         "show_only_matches": true
