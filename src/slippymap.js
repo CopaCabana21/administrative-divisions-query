@@ -1,4 +1,7 @@
 
+import L from 'leaflet';
+import osmtogeojson from 'osmtogeojson';
+
 var geojsonLayer;
 let highlightedLayer = null;
 
