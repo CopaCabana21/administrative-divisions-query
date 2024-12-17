@@ -229,8 +229,11 @@ $("#addSelectionDownloadPopupMenu").on("click", function(){
 $(".m-popup-background").on("click",function(){
     $(".m-popup").toggleClass("show");
     $(".m-popup-background").toggleClass("show");
-})
+});
 
+$(".m-popup").on("click",function(event){
+    event.stopPropagation();
+});
 
 /* make download feature */
 async function popupMenuDownload(dlStruct, dlFormat, dlIncludeData){

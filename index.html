@@ -31,54 +31,53 @@
 <!-- popup menu to select download configuration -->
 <div class="m-popup-background">
     <div class="m-popup">
-    <div class="m-popup-content">
-</div>
-
-<form action="/" class="m-popup-body" id="form-download-structure">
-<div class="download-structure">
-<div>structure:</div>
-<label for="download-structure-tree">tree</label>
-<input checked="" id="download-structure-tree" name="download-structure" type="radio"/>
-<label for="download-structure-nodes">nodes</label>
-<input id="download-structure-nodes" name="download-structure" type="radio"/>
-</div>
-<hr/>
-<div class="download-format">
-<div>format:</div>
-<label for="download-format-json">json</label>
-<input checked="" id="download-format-json" name="download-format" type="radio"/>
-<label for="download-format-xml">xml</label>
-<input id="download-format-xml" name="download-format" type="radio"/>
-</div>
-<hr/>
-<div class="download-include-data">
-<div>include OSM data:</div>
-<label for="download-include-data-simple">name</label>
-<input checked="" id="download-include-data-simple" name="download-include-data" type="radio"/>
-<label for="download-include-data-osm-tags">osm tags</label>
-<input id="download-include-data-osm-tags" name="download-include-data" type="radio"/>
-<div id="osm-geom-geojson">
-<div>
-<label for="download-include-data-osm-geometry">osm tags and geometry</label>
-<input id="download-include-data-osm-geometry" name="download-include-data" type="radio"/>
-</div>
-<div id="geojson-geom-container">
-<label for="geojson-geom-checkbox">add geojson geometry</label>
-<input id="geojson-geom-checkbox" name="geojson-geom-checkbox" type="checkbox"/>
-</div>
-</div>
-</div>
-<hr/>
-<div id="m-pop-download-footer">
-<button class="btn btn-outline-secondary" id="popupMenuDownload">download</button>
-<div id="m-pop-download-busyIcon-container">
-<div class="spinner-border" id="m-pop-download-busyIcon" role="status">
-<span class="sr-only"></span>
-</div>
-</div>
-</div>
-</form>
-</div>
+        <div class="m-popup-content">
+            <form action="/" class="m-popup-body" id="form-download-structure">
+                <div class="download-structure">
+                    <div>structure:</div>
+                    <label for="download-structure-tree">tree</label>
+                    <input checked="" id="download-structure-tree" name="download-structure" type="radio" />
+                    <label for="download-structure-nodes">nodes</label>
+                    <input id="download-structure-nodes" name="download-structure" type="radio" />
+                </div>
+                <hr />
+                <div class="download-format">
+                    <div>format:</div>
+                    <label for="download-format-json">json</label>
+                    <input checked="" id="download-format-json" name="download-format" type="radio" />
+                    <label for="download-format-xml">xml</label>
+                    <input id="download-format-xml" name="download-format" type="radio" />
+                </div>
+                <hr />
+                <div class="download-include-data">
+                    <div>include OSM data:</div>
+                    <label for="download-include-data-simple">name</label>
+                    <input checked="" id="download-include-data-simple" name="download-include-data" type="radio" />
+                    <label for="download-include-data-osm-tags">osm tags</label>
+                    <input id="download-include-data-osm-tags" name="download-include-data" type="radio" />
+                    <div id="osm-geom-geojson">
+                        <div>
+                            <label for="download-include-data-osm-geometry">osm tags and geometry</label>
+                            <input id="download-include-data-osm-geometry" name="download-include-data" type="radio" />
+                        </div>
+                        <div id="geojson-geom-container">
+                            <label for="geojson-geom-checkbox">add geojson geometry</label>
+                            <input id="geojson-geom-checkbox" name="geojson-geom-checkbox" type="checkbox" />
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <div id="m-pop-download-footer">
+                    <button class="btn btn-outline-secondary" id="popupMenuDownload">download</button>
+                    <div id="m-pop-download-busyIcon-container">
+                        <div class="spinner-border" id="m-pop-download-busyIcon" role="status">
+                            <span class="sr-only"></span>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 <aside>
 <section id="search-relation">
