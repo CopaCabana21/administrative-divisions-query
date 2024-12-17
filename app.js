@@ -6,10 +6,7 @@ const app = express();
 const port = 3000;
 
 /* setup static file folders */
-// for index.ejs
-// app.use(express.static('public'));
-// for index.html
-app.use(express.static('.'));
+app.use(express.static('public'));
 
 
 app.get("/", (req, res) => {
