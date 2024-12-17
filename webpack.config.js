@@ -10,17 +10,7 @@ export default {
     entry: './src/main.js',
     output: {
         filename: 'main.js',
-        path: path.resolve(__dirname, 'public'),
-
-        library: 'mlib',
-        libraryTarget: 'umd',
-        umdNamedDefine: true
-    },
-    resolve: {
-        fallback: {
-            "stream": false,
-            "string_decoder": false,
-        }
+        path: path.resolve(__dirname, 'public')
     },
     module: {
         rules: [
