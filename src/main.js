@@ -1,3 +1,5 @@
+import './styles.css';
+
 import {
     getNominatimSearch, addListElement, removeListElements, getRelation, 
     makeOSMDataIndex, flattenTree, buildTree,  
@@ -18,8 +20,6 @@ import 'jstree';
 import 'jstree/dist/themes/default/style.min.css';
 
 import $ from "jquery";
-
-import './styles.css';
 
 // var input = document.querySelector("input");
 // input.setAttribute('size',input.getAttribute('placeholder').length);
