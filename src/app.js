@@ -7,9 +7,9 @@ const port = 3000;
 
 /* setup static file folders */
 // for index.ejs
-app.use(express.static('public'));
+// app.use(express.static('public'));
 // for index.html
-// app.use(express.static('.'));
+app.use(express.static('.'));
 
 
 app.get("/", (req, res) => {
