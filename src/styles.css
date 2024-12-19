@@ -234,7 +234,7 @@ tr{
 
     header {
         flex-direction: column;
-        /* height: var(--header-height); */
+        justify-content: center;
     }
 
     #myMap {
@@ -247,6 +247,10 @@ tr{
     /* resize container to leave space at the bottom of viewport */
     #myMap-container{
         height: 60vh;
+    }
+
+    #nav-about{
+        display: none;
     }
 }
 
