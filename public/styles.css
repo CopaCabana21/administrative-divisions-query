@@ -10,21 +10,28 @@
     --main-font: "Oswald", sans-serif;
 }
 
-
-html, body{
+*{
     margin: 0;
     padding: 0;
+}
+
+html,
+body {
+    height: 100%;
+    overflow-x: auto;
+}
+
+.body-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    min-width: 320px;
 }
 
 
 body{
     background-color: var(--background-color);
-    
-    line-height: normal;
-
-    min-width: 325px;
     position: relative;
-
     overflow-anchor: none;
 }
 
@@ -455,7 +462,6 @@ path.leaflet-interactive:focus{
 /* relation info tables------------------------------------------------------ */
 .tagTable-cont{
     width: fit-content;
-    min-width: 400px;
     max-width: 650px;
 }
 
