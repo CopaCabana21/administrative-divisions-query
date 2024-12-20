@@ -64,7 +64,7 @@ main{
 
 
 aside{
-    min-width: 240px;
+    min-width: 250px;
     /* max-height: calc(100vh - var(--header-height) - var(--footer-height)); */
     height: 0;
     min-height: 100%;
@@ -319,6 +319,7 @@ input.addSelCheckbox{
 }
 
 #addSelectionTree{
+    overflow-x: auto;
     padding-top: 5px;
     padding-bottom: 5px;
     border-top: 1px solid black;
