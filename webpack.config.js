@@ -1,12 +1,13 @@
 import path, { resolve } from 'path';
 import { fileURLToPath } from 'url';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import CssMinimizerPlugin from 'css-minimizer-webpack-plugin'
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default {
-    mode: 'development',
+    mode: 'production',
     entry: './src/main.js',
     output: {
         filename: 'main.js',
@@ -40,4 +41,10 @@ export default {
             ],
         }),
     ],
+    optimization: {
+        minimizer: [
+            '...', // Keep default minimizers (like Terser for JS)
+            new CssMinimizerPlugin(), // Minify CSS
+        ],
+    }
 };

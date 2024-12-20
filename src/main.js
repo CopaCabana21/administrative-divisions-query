@@ -1,4 +1,5 @@
 import './styles.css';
+import treeData from './allAddTree.json';
 
 import {
     getNominatimSearch, addListElement, removeListElements, getRelation, 
@@ -101,6 +102,7 @@ document.getElementById('countrySearchForm').addEventListener("submit", function
 /* Make and handle jstree */
 $("#addSelectionTree").jstree({
     "core": {
+        'data': treeData,
         'themes': {
             'icons': false
           },
