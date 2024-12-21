@@ -320,6 +320,7 @@ input.addSelCheckbox{
 
 #addSelectionTree{
     overflow-x: auto;
+    overflow-y: hidden;
     padding-top: 5px;
     padding-bottom: 5px;
     border-top: 1px solid black;

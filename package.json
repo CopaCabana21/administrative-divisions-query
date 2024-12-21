@@ -6,9 +6,10 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack",
+    "build": "webpack --config webpack.prod.js",
     "start": "node app.js",
-    "dev": "webpack && node app.js"
+    "dev": "webpack --config webpack.dev.js && node app.js"
+
   },
   "author": "cocobongo",
   "license": "ISC",
