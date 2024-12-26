@@ -46,8 +46,6 @@ document.getElementById('countrySearchForm').addEventListener("submit", function
 
     getNominatimSearch(searchQuery)
         .then(res => {
-            //! /* pass only the name and id */
-            //! let searchData = res.map(x => [x.name, x.osm_id]);
 
             // document.getElementById('listSelector').innerHTML = '';
             /* filter res */
@@ -64,38 +62,6 @@ document.getElementById('countrySearchForm').addEventListener("submit", function
 
 
 });
-
-
-// TODO: -----------------------------------------------------------------------
-// TODO: make a jstree plugin to add button later, it is taking me too much time, use customMenu instead
-
-// (function($, undefined){
-//     "use strict";
-//     $.jstree.defaults.dotsMenu = {
-//         dotsMenu_option : "sample",
-//     };
-
-//     /* define the actual plugin */
-//     $.jstree.plugins.dotsMenu = function(options, parent){
-
-//         this.redraw_node = function(obj, deep, callback, force_draw){
-//             obj = parent.redraw_node.call(this, obj, deep, callback, force_draw);
-
-//             if(obj){
-//                 var $button = $('<button class="custom-btn">Click Me</button>');
-//                 $(obj).append($button);
-
-//                 $button.on('click', function(event) {
-//                     event.stopPropagation();
-//                     console.log('Button clicked for node: ' + $(obj).attr('id'));
-//                 });
-//             }
-
-//             return obj;
-//         };
-//     };
-// })(jQuery);
-// TODO: -----------------------------------------------------------------------
 
 
 /* Make and handle jstree */
@@ -204,26 +170,6 @@ $("#addSelectionPlot").on("click", function (e) {
             showSlippyAlert(err);
         });
 })
-
-
-//! -----------------------------------------------
-//! old way of selection immediate childs
-/* only the immediate children should be selected */
-/* This uses cascade down checkbox */
-// $("#addSelectionTree").on("select_node.jstree", function(e, data){
-
-//     // console.log(data.node);
-//     let children = data.node.children;
-//     /* complement from all children */
-//     let childrenDeselect = data.node.children_d.filter(x => !children.includes(x));
-//     /* true, disable changed.jstree event */
-//     childrenDeselect.forEach( child =>{
-//         $(this).jstree("deselect_node", child, true);
-//     });
-
-// })
-//! -----------------------------------------------
-
 
 /* -------------------------------------------------------------------------- */
 /* Handle download of selected tree */
@@ -415,12 +361,3 @@ function handleSelectionDownload(event) {
 
     popupMenuDownload(dlStruct, dlFormat, dlIncludeData);
 }
-
-/* -------------------------------------------------------------------------- */
-
-
-// document.querySelectorAll("[data-bs-toggle]").forEach(ele => {
-//     if(!ele.classList.contains("arrowHead")){
-//         ele.classList.add("arrowHead");
-//     }
-// })
