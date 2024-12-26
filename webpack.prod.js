@@ -3,8 +3,21 @@ import { fileURLToPath } from 'url';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin'
 import CopyWebpackPlugin from 'copy-webpack-plugin';
+import CopyPlugin from 'copy-webpack-plugin';
+import fs from 'fs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+// minify json before copying
+const srcTreePath = path.resolve(__dirname, 'src/allAddTree.json');
+const tempTreePath = path.resolve(__dirname, 'src/tempAllAddTree.json');
+const distTreePath = path.resolve(__dirname, 'public/allAddTree.json');
+
+const rawJson = JSON.parse(fs.readFileSync(srcTreePath, 'utf8'));
+
+// const minifiedJson = jsonMinify(rawJson);
+const minifiedJson = JSON.stringify(rawJson);
+fs.writeFileSync(tempTreePath, minifiedJson);
 
 export default {
     mode: 'production',
@@ -40,6 +53,11 @@ export default {
                 { from: 'src/assets/images', to: 'assets/images' }
             ],
         }),
+        new CopyPlugin({
+            patterns: [
+                { from: tempTreePath, to: distTreePath }
+            ]
+        })
     ],
     optimization: {
         minimizer: [

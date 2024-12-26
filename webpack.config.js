@@ -7,7 +7,7 @@ import CopyWebpackPlugin from 'copy-webpack-plugin';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default {
-    mode: 'production',
+    mode: 'development',
     entry: './src/main.js',
     output: {
         filename: 'main.js',
